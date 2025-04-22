@@ -4,17 +4,26 @@
 @use "helpers/color";
 @use "helpers/icon_size";
 @use "themecolors/default_theme" as vars;
+@use "overrides/materialoverrides";
+@use "dark/dark";
+@use "container";
+@use "layouts/layouts";
+@use "grid/grid";
+@use "helpers/custom-flex";
+@use "helpers/index";
+@use "horizontal/horizontal";
+@use "apps/calendar";
+@use "apps/email";
+@use "pages/dashboards";
+@use "pages/auth";
+@use "pages/landingpage";
+@use "rtl/rtl";
 //@use "themecolors/orange_theme" as orr;
 
 @include mat.all-component-themes(vars.$bluetheme);
 .dark-theme {
   @include mat.all-component-colors(vars.$darkbluetheme);
 }
-
-//@include mat.all-component-colors(orr.$orangetheme);
-//.orange_theme {
-//  @include mat.all-component-colors(orr.$orangetheme);
-//}
 
 @include mat.core();
 

@@ -1,0 +1,32 @@
+@use "../variables" as vars;
+
+.cal-event-action {
+  text-decoration: none;
+  margin-left: 5px;
+  color: vars.$white;
+}
+
+.cal-month-view {
+  background-color: transparent !important;
+}
+
+.cal-month-view .cal-open-day-events {
+  background-color: vars.$darkhoverbgcolor !important;
+}
+
+.cal-month-view .cal-day-badge {
+  background-color: vars.$primary !important;
+}
+
+.cal-month-view .cal-day-cell.cal-weekend .cal-day-number {
+  color: vars.$primary !important;
+}
+
+// ticket
+.max-text {
+  max-width: 250px;
+  line-height: 1.57;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,9 @@
+@use "../variables" as vars;
+// theme
+.mat-drawer-side {
+  border-right: 1px solid vars.$borderColor;
+}
+
+.mat-divider {
+  border-top-color: vars.$borderColor;
+}

@@ -1,0 +1,5 @@
+@use "../variables" as vars;
+
+.mat-mdc-menu-item:hover:not([disabled]) {
+  background: vars.$hoverBgColor;
+}

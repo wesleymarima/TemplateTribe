@@ -1,0 +1,23 @@
+@use "../variables" as vars;
+
+.breadcrumb-icon {
+  position: absolute;
+  top: -20px;
+  right: 19px;
+}
+
+.breadcrumb-item {
+  &:first-child {
+    margin-left: -20px;
+  }
+
+  &.active {
+    margin-left: 20px;
+  }
+
+  a {
+    text-decoration: none;
+    color: vars.$textPrimary;
+    font-size: 14px;
+  }
+}

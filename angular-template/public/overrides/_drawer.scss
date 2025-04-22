@@ -1,0 +1,11 @@
+@use "../variables" as vars;
+
+.mat-drawer {
+  background-color: vars.$sidebarbg;
+}
+
+.mat-drawer-container {
+  background-color: vars.$background;
+}
+
+

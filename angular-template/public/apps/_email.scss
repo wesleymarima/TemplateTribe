@@ -1,0 +1,18 @@
+@use "../variables" as vars;
+
+.ngx-pagination {
+  margin-bottom: 15px !important;
+
+  .current {
+    background: vars.$primary !important;
+    border-radius: vars.$border-radius;
+  }
+
+  a {
+    border-radius: vars.$border-radius !important;
+  }
+
+  button {
+    border-radius: vars.$border-radius !important;
+  }
+}
