@@ -1,0 +1,21 @@
+@use "@angular/material" as mat;
+@use "variables";
+@use "layouts/transitions";
+@use "helpers/color";
+@use "helpers/icon_size";
+@use "themecolors/default_theme" as vars;
+//@use "themecolors/orange_theme" as orr;
+
+@include mat.all-component-themes(vars.$bluetheme);
+.dark-theme {
+  @include mat.all-component-colors(vars.$darkbluetheme);
+}
+
+//@include mat.all-component-colors(orr.$orangetheme);
+//.orange_theme {
+//  @include mat.all-component-colors(orr.$orangetheme);
+//}
+
+@include mat.core();
+
+
