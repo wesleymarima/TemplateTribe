@@ -11,6 +11,11 @@ import {NgScrollbarModule} from 'ngx-scrollbar';
 import * as TablerIcons from 'angular-tabler-icons/icons';
 import {AdminModule} from '../admin/admin.module';
 import {AuthModule} from '../auth/auth.module';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ErrorInterceptor} from '../shared/interceptors/error.interceptor';
+import {HeaderInterceptor} from '../shared/interceptors/header.interceptor';
+import {LoaderInterceptor} from '../shared/interceptors/loader.interceptor';
 
 @NgModule({
   declarations: [
@@ -21,16 +26,37 @@ import {AuthModule} from '../auth/auth.module';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    FormsModule,
     MaterialModule,
     SharedModule,
     TablerIconsModule.pick(TablerIcons),
     NgScrollbarModule,
     AdminModule,
-    AuthModule
+    AuthModule,
+    HttpClientModule,
+
 
   ],
   exports: [TablerIconsModule],
-  providers: [],
+  providers: [
+    provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../../shared/services/auth.service';
+import {AuthRestService} from '../../shared/services/rest/auth.rest.service';
+import {Token} from '../../shared/models/token';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +11,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  
+  constructor(private authService: AuthService,
+              private authRestService: AuthRestService,) {
+  }
+
 
   form = new FormGroup({
-    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl('', [Validators.required, Validators.minLength(6)]),
     password: new FormControl('', [Validators.required]),
   });
 
@@ -20,7 +26,11 @@ export class LoginComponent {
   }
 
   submit() {
-    console.log(this.form.value);
+    this.authRestService.login(this.form.value).subscribe(response => {
+      const token: Token = response;
+      this.authService.saveToken(token);
+      this.authService.navigateAccount();
+    });
 
   }
 }

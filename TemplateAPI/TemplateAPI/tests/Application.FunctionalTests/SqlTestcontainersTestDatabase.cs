@@ -1,9 +1,9 @@
 ﻿using System.Data.Common;
-using TemplateAPI.Infrastructure.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Respawn;
+using TemplateAPI.Infrastructure.Persistence;
 using Testcontainers.MsSql;
 
 namespace TemplateAPI.Application.FunctionalTests;
@@ -28,28 +28,23 @@ public class SqlTestcontainersTestDatabase : ITestDatabase
         await _container.StartAsync();
         await _container.ExecScriptAsync($"CREATE DATABASE {DefaultDatabase}");
 
-        var builder = new SqlConnectionStringBuilder(_container.GetConnectionString())
-        {
-            InitialCatalog = DefaultDatabase
-        };
+        SqlConnectionStringBuilder builder = new(_container.GetConnectionString()) { InitialCatalog = DefaultDatabase };
 
         _connectionString = builder.ConnectionString;
 
         _connection = new SqlConnection(_connectionString);
 
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        DbContextOptions<ApplicationDbContext> options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseSqlServer(_connectionString)
             .ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning))
             .Options;
 
-        var context = new ApplicationDbContext(options);
+        ApplicationDbContext context = new(options);
 
         await context.Database.MigrateAsync();
 
-        _respawner = await Respawner.CreateAsync(_connectionString, new RespawnerOptions
-        {
-            TablesToIgnore = ["__EFMigrationsHistory"]
-        });
+        _respawner = await Respawner.CreateAsync(_connectionString,
+            new RespawnerOptions { TablesToIgnore = ["__EFMigrationsHistory"] });
     }
 
     public DbConnection GetConnection()

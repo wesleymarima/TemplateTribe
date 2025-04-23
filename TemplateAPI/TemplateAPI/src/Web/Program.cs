@@ -1,7 +1,8 @@
 using Serilog;
-using TemplateAPI.Infrastructure.Data;
+using TemplateAPI.Infrastructure;
+using TemplateAPI.Infrastructure.Persistence;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.AddKeyVaultIfConfigured();
@@ -12,7 +13,7 @@ builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 builder.Services.AddSwaggerDocument();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 await app.InitialiseDatabaseAsync();
 app.UseHsts();

@@ -1,6 +1,4 @@
 ﻿using System.Data.Common;
-using TemplateAPI.Application.Common.Interfaces;
-using TemplateAPI.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -8,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using TemplateAPI.Application.Common.Interfaces;
+using TemplateAPI.Infrastructure.Persistence;
 
 namespace TemplateAPI.Application.FunctionalTests;
 

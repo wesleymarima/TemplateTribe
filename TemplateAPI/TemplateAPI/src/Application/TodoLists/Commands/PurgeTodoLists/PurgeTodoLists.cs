@@ -4,7 +4,7 @@ using TemplateAPI.Domain.Constants;
 
 namespace TemplateAPI.Application.TodoLists.Commands.PurgeTodoLists;
 
-[Authorize(Roles = Roles.Administrator)]
+[Authorize(Roles = Roles.ADMINISTRATOR)]
 [Authorize(Policy = Policies.CanPurge)]
 public record PurgeTodoListsCommand : IRequest;
 

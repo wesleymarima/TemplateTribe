@@ -1,21 +1,25 @@
-﻿using TemplateAPI.Application.Common.Interfaces;
-using TemplateAPI.Domain.Constants;
-using TemplateAPI.Infrastructure.Data;
-using TemplateAPI.Infrastructure.Data.Interceptors;
-using TemplateAPI.Infrastructure.Identity;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using TemplateAPI.Application.Common.Interfaces;
+using TemplateAPI.Domain.Constants;
+using TemplateAPI.Infrastructure.Identity;
+using TemplateAPI.Infrastructure.Persistence;
+using TemplateAPI.Infrastructure.Persistence.Interceptors;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace TemplateAPI.Infrastructure;
 
 public static class DependencyInjection
 {
     public static void AddInfrastructureServices(this IHostApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("TemplateAPIDb");
+        string? connectionString = builder.Configuration.GetConnectionString("TemplateAPIDb");
         Guard.Against.Null(connectionString, message: "Connection string 'TemplateAPIDb' not found.");
 
         builder.Services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
@@ -38,16 +42,51 @@ public static class DependencyInjection
 
         builder.Services.AddAuthorizationBuilder();
 
-        builder.Services
-            .AddIdentityCore<ApplicationUser>()
-            .AddRoles<IdentityRole>()
+        // builder.Services
+        //     .AddIdentityCore<ApplicationUser>()
+        //     .AddRoles<IdentityRole>()
+        //     .AddEntityFrameworkStores<ApplicationDbContext>()
+        //     .AddApiEndpoints();
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddApiEndpoints();
+            .AddRoles<IdentityRole>()
+            .AddDefaultTokenProviders();
 
         builder.Services.AddSingleton(TimeProvider.System);
         builder.Services.AddTransient<IIdentityService, IdentityService>();
+        builder.Services.Configure<IdentityOptions>(option =>
+        {
+            option.Password.RequireDigit = true;
+            option.Password.RequiredLength = 8;
+            //options.Password.RequiredUniqueChars = true;
+            option.Password.RequireLowercase = true;
+            option.Password.RequireUppercase = true;
+            option.User.RequireUniqueEmail = true;
+        });
 
         builder.Services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));
+            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.ADMINISTRATOR)));
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = false;
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                ValidIssuer = "devtest",
+                ValidAudience = "devtest",
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SUPERSCURERBZKEY123#@!SUPERSECUREMEKEYSTRING"))
+            };
+        });
     }
 }

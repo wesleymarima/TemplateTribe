@@ -3,6 +3,8 @@ import {CommonModule} from '@angular/common';
 import {LoginComponent} from './login/login.component';
 import {MaterialModule} from '../material/material.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {AuthRoutes} from './auth.routing';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import {ReactiveFormsModule} from '@angular/forms';
   imports: [
     CommonModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule,
+    RouterModule.forChild(AuthRoutes)
   ]
 })
 export class AuthModule {

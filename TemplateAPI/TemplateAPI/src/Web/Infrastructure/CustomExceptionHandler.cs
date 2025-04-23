@@ -17,7 +17,19 @@ public class CustomExceptionHandler : IExceptionHandler
             { typeof(NotFoundException), HandleNotFoundException },
             { typeof(UnauthorizedAccessException), HandleUnauthorizedAccessException },
             { typeof(ForbiddenAccessException), HandleForbiddenAccessException },
+            { typeof(BadResponseException), HandleBadResponseException }
         };
+    }
+    
+    private async Task HandleBadResponseException(HttpContext httpContext, Exception ex)
+    {
+        BadResponseException exception = (BadResponseException)ex;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+        {
+            Status = StatusCodes.Status400BadRequest, Title = "BadResponseException", Detail = exception.Message
+        });
     }
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,

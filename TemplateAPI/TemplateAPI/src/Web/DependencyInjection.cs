@@ -1,10 +1,10 @@
 ﻿using Azure.Identity;
-using TemplateAPI.Application.Common.Interfaces;
-using TemplateAPI.Infrastructure.Data;
-using TemplateAPI.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using TemplateAPI.Application.Common.Interfaces;
+using TemplateAPI.Infrastructure.Persistence;
+using TemplateAPI.Web.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -34,13 +34,14 @@ public static class DependencyInjection
             configure.Title = "TemplateAPI API";
 
             // Add JWT
-            configure.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
-            {
-                Type = OpenApiSecuritySchemeType.ApiKey,
-                Name = "Authorization",
-                In = OpenApiSecurityApiKeyLocation.Header,
-                Description = "Type into the textbox: Bearer {your JWT token}."
-            });
+            configure.AddSecurity("JWT", Enumerable.Empty<string>(),
+                new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "Type into the textbox: Bearer {your JWT token}."
+                });
 
             configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
@@ -49,7 +50,7 @@ public static class DependencyInjection
 
     public static void AddKeyVaultIfConfigured(this IHostApplicationBuilder builder)
     {
-        var keyVaultUri = builder.Configuration["AZURE_KEY_VAULT_ENDPOINT"];
+        string? keyVaultUri = builder.Configuration["AZURE_KEY_VAULT_ENDPOINT"];
         if (!string.IsNullOrWhiteSpace(keyVaultUri))
         {
             builder.Configuration.AddAzureKeyVault(
