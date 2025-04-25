@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Respawn;
+using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Infrastructure.Persistence;
 
 namespace TemplateAPI.Application.FunctionalTests;
@@ -11,11 +12,13 @@ namespace TemplateAPI.Application.FunctionalTests;
 public class SqlTestDatabase : ITestDatabase
 {
     private readonly string _connectionString = null!;
+    private readonly IUser _currentUser;
     private SqlConnection _connection = null!;
     private Respawner _respawner = null!;
 
-    public SqlTestDatabase()
+    public SqlTestDatabase(IUser currentUser)
     {
+        _currentUser = currentUser;
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .AddEnvironmentVariables()
@@ -37,7 +40,7 @@ public class SqlTestDatabase : ITestDatabase
             .ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning))
             .Options;
 
-        ApplicationDbContext context = new(options);
+        ApplicationDbContext context = new(options, _currentUser);
 
         context.Database.EnsureDeleted();
         context.Database.Migrate();

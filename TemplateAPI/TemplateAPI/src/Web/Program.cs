@@ -1,6 +1,7 @@
 using Serilog;
 using TemplateAPI.Infrastructure;
 using TemplateAPI.Infrastructure.Persistence;
+using TemplateAPI.Web;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

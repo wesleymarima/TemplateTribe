@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Respawn;
+using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Infrastructure.Persistence;
 using Testcontainers.MsSql;
 
@@ -12,12 +13,14 @@ public class SqlTestcontainersTestDatabase : ITestDatabase
 {
     private const string DefaultDatabase = "TemplateAPITestDb";
     private readonly MsSqlContainer _container;
+    private readonly IUser _currentUser;
     private DbConnection _connection = null!;
     private string _connectionString = null!;
     private Respawner _respawner = null!;
 
-    public SqlTestcontainersTestDatabase()
+    public SqlTestcontainersTestDatabase(IUser currentUser)
     {
+        _currentUser = currentUser;
         _container = new MsSqlBuilder()
             .WithAutoRemove(true)
             .Build();
@@ -39,7 +42,7 @@ public class SqlTestcontainersTestDatabase : ITestDatabase
             .ConfigureWarnings(warnings => warnings.Log(RelationalEventId.PendingModelChangesWarning))
             .Options;
 
-        ApplicationDbContext context = new(options);
+        ApplicationDbContext context = new(options, _currentUser);
 
         await context.Database.MigrateAsync();
 

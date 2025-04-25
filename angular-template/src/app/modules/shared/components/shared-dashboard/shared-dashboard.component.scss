@@ -15,3 +15,27 @@
   top: 0;
   z-index: 1;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-nav-list {
+  padding: 0;
+}
+
+mat-list-item {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+}
+
+mat-icon[matListIcon] {
+  margin-right: 16px;
+  color: #757575; /* Optional: Adjust icon color */
+}
+
+span {
+  font-size: 16px;
+  font-weight: 500;
+}

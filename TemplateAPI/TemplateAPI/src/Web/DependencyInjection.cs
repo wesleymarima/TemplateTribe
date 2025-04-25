@@ -6,7 +6,7 @@ using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Infrastructure.Persistence;
 using TemplateAPI.Web.Services;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace TemplateAPI.Web;
 
 public static class DependencyInjection
 {

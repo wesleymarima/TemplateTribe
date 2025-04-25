@@ -119,6 +119,15 @@ public class ApplicationDbContextInitialiser
             {
                 await _userManager.AddToRolesAsync(auditor, new[] { auditorRole.Name });
             }
+
+            await _sender.Send(new CreatePersonCommand
+            {
+                Email = "auditor@templatetribe.com",
+                FirstName = "Auditor",
+                LastName = "User",
+                ApplicationUserId = auditor.Id,
+                Role = Roles.AUDITOR
+            });
         }
 
         // Default data

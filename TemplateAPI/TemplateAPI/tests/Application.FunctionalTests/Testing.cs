@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Domain.Constants;
 using TemplateAPI.Infrastructure.Identity;
 using TemplateAPI.Infrastructure.Persistence;
@@ -15,11 +16,17 @@ public class Testing
     private static CustomWebApplicationFactory _factory = null!;
     private static IServiceScopeFactory _scopeFactory = null!;
     private static string? _userId;
+    private readonly IUser _currentUser;
+
+    public Testing(IUser currentUser)
+    {
+        _currentUser = currentUser;
+    }
 
     [OneTimeSetUp]
     public async Task RunBeforeAnyTests()
     {
-        _database = await TestDatabaseFactory.CreateAsync();
+        _database = await TestDatabaseFactory.CreateAsync(_currentUser);
 
         _factory = new CustomWebApplicationFactory(_database.GetConnection(), _database.GetConnectionString());
 

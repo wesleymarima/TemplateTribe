@@ -1,25 +1,27 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AdminHomeComponent} from './admin-home/admin-home.component';
+import {AuditHomeComponent} from './audit-home/audit-home.component';
 import {RouterModule} from '@angular/router';
+import {AuditRouting} from './audit.routing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MaterialModule} from '../material/material.module';
 import {SharedModule} from '../shared/shared.module';
-import {AdminRoutes} from './admin.routing';
+import {MaterialModule} from '../material/material.module';
 
 
 @NgModule({
   declarations: [
-    AdminHomeComponent
+    AuditHomeComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    RouterModule.forChild(AuditRouting),
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,
-    RouterModule.forChild(AdminRoutes)
+    MaterialModule,
+
   ]
 })
-export class AdminModule {
+export class AuditModule {
 }

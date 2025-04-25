@@ -16,6 +16,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ErrorInterceptor} from '../shared/interceptors/error.interceptor';
 import {HeaderInterceptor} from '../shared/interceptors/header.interceptor';
 import {LoaderInterceptor} from '../shared/interceptors/loader.interceptor';
+import {AuditModule} from '../audit/audit.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {LoaderInterceptor} from '../shared/interceptors/loader.interceptor';
     AdminModule,
     AuthModule,
     HttpClientModule,
+    AuditModule
 
 
   ],

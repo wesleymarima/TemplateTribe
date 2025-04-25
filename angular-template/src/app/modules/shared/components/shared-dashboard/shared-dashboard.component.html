@@ -16,11 +16,25 @@
       }
     </mat-toolbar>
     <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon matListIcon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-list-item routerLink="/settings">
+        <mat-icon matListIcon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+      <a mat-list-item routerLink="/profile">
+        <mat-icon matListIcon>person</mat-icon>
+        <span>Profile</span>
+      </a>
       <!--      <div *ngFor="let item of dealer_side_menu">-->
       <!--        <a mat-list-item routerLink="{{item.path}}"> <i class="material-icons">{{ item.icon }}</i>{{ item.title }}</a>-->
       <!--      </div>-->
-      <a mat-list-item><i class="material-icons">logout</i>
-        Logout</a>
+      <a mat-list-item routerLink="/profile">
+        <mat-icon matListIcon>logout</mat-icon>
+        <span>Logout</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -34,7 +48,25 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <span>Reserve Bank Of Zimbabwe</span>
+      <span>Template Tribe</span>
+      <span class="spacer"></span>
+      <button mat-icon-button [mat-menu-trigger-for]="profileMenu" aria-label="Profile menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
