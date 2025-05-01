@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {AlertService} from './alert.service';
 import {Token} from '../models/token';
 import {AccountType} from '../typings/account-type';
+import {RouterConstants} from '../typings/router-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,11 @@ export class AuthService {
   }
 
   isTokenValid(): boolean {
+    const token = localStorage.getItem('token');
+
+    if (token === null || '') {
+      return false;
+    }
     const decode: any = this.jwtHelper.decodeToken(this.getToken());
     return decode.exp * 1000 > Date.now();
   }
@@ -76,9 +82,11 @@ export class AuthService {
       console.log(accountType);
       switch (accountType) {
         case AccountType.ADMINISTRATOR:
-          this.router.navigate(['/admin/home']);
+          this.router.navigate([RouterConstants.ADMIN_HOME]);
+          // this.router.navigate(['/admin/home']);
           break;
         case AccountType.AUDITOR:
+          this.router.navigate([RouterConstants.AUDIT_HOME]);
           break;
         default:
           this.alertService.showError('Account type not found');

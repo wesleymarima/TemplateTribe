@@ -6,11 +6,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../material/material.module';
 import {NgScrollbarModule} from 'ngx-scrollbar';
 import {TablerIconsModule} from 'angular-tabler-icons';
+import {SharedAuditTableComponent} from './components/shared-audit-table/shared-audit-table.component';
+import {SharedFooterComponent} from './components/shared-footer/shared-footer.component';
+import {SharedPaginateComponent} from './components/shared-paginate/shared-paginate.component';
 
 
 @NgModule({
   declarations: [
     SharedDashboardComponent,
+    SharedAuditTableComponent,
+    SharedFooterComponent,
+    SharedPaginateComponent,
   ],
   imports: [
     CommonModule,
@@ -20,6 +26,12 @@ import {TablerIconsModule} from 'angular-tabler-icons';
     MaterialModule,
     NgScrollbarModule,
     TablerIconsModule
+  ],
+  exports: [
+    SharedDashboardComponent,
+    SharedAuditTableComponent,
+    SharedFooterComponent,
+    SharedPaginateComponent,
   ]
 })
 export class SharedModule {

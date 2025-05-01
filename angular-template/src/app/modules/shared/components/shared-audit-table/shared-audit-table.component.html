@@ -1,0 +1,74 @@
+<div class="table-responsive m-t-30">
+  <table mat-table [dataSource]="auditItems" class="table table-striped">
+    <ng-container matColumnDef="tableName">
+      <th mat-header-cell *matHeaderCellDef>
+        Table Name
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.tableName }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="userId">
+      <th mat-header-cell *matHeaderCellDef>
+        User ID
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.userId }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>
+        Type
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.type }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="oldValues">
+      <th mat-header-cell *matHeaderCellDef>
+        Old Values
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.oldValues }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="newValues">
+      <th mat-header-cell *matHeaderCellDef>
+        New Values
+      </th>
+      <td class="new-values" mat-cell *matCellDef="let element">
+        {{ element.newValues }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="affectedColumns">
+      <th mat-header-cell *matHeaderCellDef>
+        affectedColumns
+      </th>
+      <td class="new-values" mat-cell *matCellDef="let element">
+        {{ element.affectedColumns }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef>
+        created
+      </th>
+      <td class="affectedColumns" mat-cell *matCellDef="let element">
+        {{ element.created | date: 'short' }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="primaryKey">
+      <th mat-header-cell *matHeaderCellDef>
+        Primary Key
+      </th>
+      <td class="affectedColumns" mat-cell *matCellDef="let element">
+        {{ element.primaryKey }}
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="auditTableHeaders"></tr>
+    <tr mat-row *matRowDef="let row; columns: auditTableHeaders;"></tr>
+  </table>
+  <div class="">
+
+  </div>
+  
+</div>

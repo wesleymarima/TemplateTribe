@@ -1,1 +1,48 @@
-<p>audit-home works!</p>
+<mat-card class="cardWithShadow theme-card">
+  <mat-card-content class="b-t-1">
+    <div class="p-16 bg-light-primary rounded">
+      <h5 class="mat-subtitle-2 text-primary d-flex align-items-center f-w-600">
+        <i-tabler name="info-circle" class="icon-20 m-r-8 d-flex"></i-tabler>
+        Person Info
+      </h5>
+    </div>
+    <div class="row m-t-20">
+      <form [formGroup]="rangeForm" (ngSubmit)="filterData()" class="p-16 bg-light-primary rounded ">
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">Start Date</mat-label>
+              <input matInput [matDatepicker]="startPicker" formControlName="startDate"/>
+              <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+              <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label class="mat-subtitle-2 f-w-600 m-b-8 d-block">End Date</mat-label>
+              <input matInput [matDatepicker]="endPicker" formControlName="endDate"/>
+              <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+              <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <button mat-raised-button class="btn-primary" type="submit" [disabled]="rangeForm.invalid">Filter</button>
+
+      </form>
+    </div>
+    <div *ngIf="formSubmitted">
+      <app-shared-audit-table [auditItems]="auditItems">
+
+      </app-shared-audit-table>
+    </div>
+
+    <div>
+      <app-shared-paginate>
+
+      </app-shared-paginate>
+    </div>
+
+
+  </mat-card-content>
+</mat-card>

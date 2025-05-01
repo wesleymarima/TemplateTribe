@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TemplateAPI.Application.Common.Interfaces;
-using TemplateAPI.Application.Features;
 using TemplateAPI.Application.Features.Auth;
 
 namespace TemplateAPI.Web.Controllers;
@@ -21,5 +20,11 @@ public class AuthController : ApiControllerBase
     {
         AuthenticationResponse response = await _identityService.LoginAsync(loginRequest);
         return Ok(response);
+    }
+
+    [HttpGet("test")]
+    public IActionResult TestAsync()
+    {
+        return Ok("Test");
     }
 }

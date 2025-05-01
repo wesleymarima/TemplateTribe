@@ -11,7 +11,13 @@ export class AppComponent {
   title = 'angular-template';
 
   constructor(private authService: AuthService) {
-    this.authService.navigateAccount();
+
+    if (this.authService.isTokenValid()) {
+      this.authService.navigateAccount();
+    } else {
+      this.authService.logout();
+    }
+
     // if (this.authService.isLoggedIn()) {
     //   this.authService.navigateAccount();
     // } else {
