@@ -10,10 +10,9 @@ export class PaginationService {
   totalCount = signal(0);
   hasPreviousPage = signal(false);
   hasNextPage = signal(false);
+  paginationEnabled = signal(false);
 
   update(meta: PaginationMetadata) {
-
-    console.log(meta)
     this.pageNumber.set(meta.pageNumber);
     this.pageSize.set(meta.pageSize);
     this.totalItems.set(meta.totalItems);
@@ -21,6 +20,7 @@ export class PaginationService {
     this.totalCount.set(meta.totalCount);
     this.hasPreviousPage.set(meta.hasPreviousPage);
     this.hasNextPage.set(meta.hasNextPage);
+    this.paginationEnabled.set(true);
   }
 
   reset() {
@@ -31,5 +31,6 @@ export class PaginationService {
     this.totalCount.set(0);
     this.hasPreviousPage.set(false);
     this.hasNextPage.set(false);
+    this.paginationEnabled.set(false);
   }
 }

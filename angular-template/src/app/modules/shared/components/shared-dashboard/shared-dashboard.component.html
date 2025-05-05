@@ -31,7 +31,7 @@
       <!--      <div *ngFor="let item of dealer_side_menu">-->
       <!--        <a mat-list-item routerLink="{{item.path}}"> <i class="material-icons">{{ item.icon }}</i>{{ item.title }}</a>-->
       <!--      </div>-->
-      <a mat-list-item routerLink="/profile">
+      <a mat-list-item (click)="logout()">
         <mat-icon matListIcon>logout</mat-icon>
         <span>Logout</span>
       </a>

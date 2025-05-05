@@ -9,6 +9,7 @@ import {TablerIconsModule} from 'angular-tabler-icons';
 import {SharedAuditTableComponent} from './components/shared-audit-table/shared-audit-table.component';
 import {SharedFooterComponent} from './components/shared-footer/shared-footer.component';
 import {SharedPaginateComponent} from './components/shared-paginate/shared-paginate.component';
+import {SharedLoadingSpinnerComponent} from './components/shared-loading-spinner/shared-loading-spinner.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {SharedPaginateComponent} from './components/shared-paginate/shared-pagin
     SharedAuditTableComponent,
     SharedFooterComponent,
     SharedPaginateComponent,
+    SharedLoadingSpinnerComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import {SharedPaginateComponent} from './components/shared-paginate/shared-pagin
     SharedAuditTableComponent,
     SharedFooterComponent,
     SharedPaginateComponent,
+    SharedLoadingSpinnerComponent,
   ]
 })
 export class SharedModule {

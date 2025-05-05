@@ -3,7 +3,6 @@ import {BaseComponent} from '../../shared/typings/base-component';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuditRestService} from '../../shared/services/rest/audit.rest.service';
 import {Audit} from '../../shared/models/audit';
-import {PaginationService} from '../../shared/services/pagination.service';
 
 @Component({
   selector: 'app-audit-home',
@@ -17,8 +16,8 @@ export class AuditHomeComponent extends BaseComponent {
   auditItems: Audit[] = [];
   formSubmitted = false;
 
-  constructor(private auditRestService: AuditRestService, paginationService: PaginationService,) {
-    super(paginationService);
+  constructor(private auditRestService: AuditRestService,) {
+    super();
     this.rangeForm = new FormGroup({
       'startDate': new FormControl(null, [Validators.required]),
       'endDate': new FormControl(null, [Validators.required])
@@ -27,9 +26,8 @@ export class AuditHomeComponent extends BaseComponent {
 
   filterData() {
     let item = this.rangeForm.value;
-    console.log(this.paginationService.pageSize());
-    item.pageNumber = this.paginationService.pageNumber();
-    item.pageSize = this.paginationService.pageSize();
+    item.pageNumber = this.pageNumber
+    item.pageSize = this.pageSize;
     this.formSubmitted = true;
     this.auditRestService.filterData(item).subscribe(response => {
       this.auditItems = response.items;

@@ -38,7 +38,11 @@
     </div>
 
     <div>
-      <app-shared-paginate>
+      <app-shared-paginate [hasPreviousPage]="hasPreviousPage"
+                           [totalCount]="totalCount"
+                           [pageNumber]="pageNumber"
+                           [hasNextPage]="hasNextPage"
+                           [totalPages]="totalPages">
 
       </app-shared-paginate>
     </div>
