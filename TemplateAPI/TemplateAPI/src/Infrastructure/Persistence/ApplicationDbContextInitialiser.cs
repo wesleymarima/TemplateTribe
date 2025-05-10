@@ -74,7 +74,7 @@ public class ApplicationDbContextInitialiser
     public async Task TrySeedAsync()
     {
         // Default roles
-        IdentityRole administratorRole = new(Roles.ADMINISTRATOR);
+        IdentityRole administratorRole = new(Roles.ADMIN);
 
         if (_roleManager.Roles.All(r => r.Name != administratorRole.Name))
         {
@@ -106,7 +106,7 @@ public class ApplicationDbContextInitialiser
                 FirstName = "Admin",
                 LastName = "User",
                 ApplicationUserId = administrator.Id,
-                Role = Roles.ADMINISTRATOR
+                Role = Roles.ADMIN
             });
         }
 

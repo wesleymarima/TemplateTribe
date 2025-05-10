@@ -65,7 +65,7 @@ public static class DependencyInjection
         });
 
         builder.Services.AddAuthorization(options =>
-            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.ADMINISTRATOR)));
+            options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.ADMIN)));
         builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

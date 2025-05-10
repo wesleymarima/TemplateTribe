@@ -63,7 +63,7 @@ public class Testing
 
     public static async Task<string> RunAsAdministratorAsync()
     {
-        return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { Roles.ADMINISTRATOR });
+        return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { Roles.ADMIN });
     }
 
     public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)

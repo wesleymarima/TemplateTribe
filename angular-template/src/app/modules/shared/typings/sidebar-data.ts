@@ -1,24 +1,23 @@
-import {NavItem} from './nav-item';
+import {SideBarItem} from './side-bar-item';
+import {RouterConstants} from './router-constants';
 
-export const adminNavItems: NavItem[] = [
+export const AdminSideBarData: SideBarItem[] = [
   {
-    navCap: 'Home'
+    icon: 'home',
+    path: RouterConstants.ADMIN_HOME,
+    name: 'Home'
   },
   {
-    displayName: 'Dashboards',
-    iconName: 'home',
-    route: 'dashboards',
-    children: [
-      {
-        displayName: 'Analytical',
-        iconName: 'point',
-        route: 'dashboards/dashboard1',
-      },
-      {
-        displayName: 'eCommerce',
-        iconName: 'point',
-        route: 'dashboards/dashboard2',
-      },
-    ],
-  },
+    icon: 'person',
+    path: RouterConstants.ADMIN_USERS,
+    name: 'Users'
+  }
+]
+
+export const AuditorSideBarData: SideBarItem[] = [
+  {
+    icon: 'home',
+    path: RouterConstants.AUDIT_HOME,
+    name: 'Home'
+  }
 ]

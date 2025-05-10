@@ -81,7 +81,7 @@ export class AuthService {
       let accountType = localStorage.getItem('role');
       console.log(accountType);
       switch (accountType) {
-        case AccountType.ADMINISTRATOR:
+        case AccountType.ADMIN:
           this.router.navigate([RouterConstants.ADMIN_HOME]);
           // this.router.navigate(['/admin/home']);
           break;

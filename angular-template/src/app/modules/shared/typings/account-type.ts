@@ -1,4 +1,4 @@
 export class AccountType {
-  static readonly ADMINISTRATOR = 'ADMINISTRATOR';
+  static readonly ADMIN = 'ADMIN';
   static readonly AUDITOR = 'AUDITOR';
 }
