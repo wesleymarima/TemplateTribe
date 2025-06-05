@@ -1,4 +1,3 @@
-using TemplateAPI.Application.Common.Exceptions;
 using TemplateAPI.Application.Common.Interfaces;
 
 namespace TemplateAPI.Application.Features.Person.Queries.GetPersonByEmail;
@@ -21,11 +20,12 @@ public class GetPersonByEmailQueryHandler : IRequestHandler<GetPersonByEmailQuer
 
     public async Task<PersonDTO> Handle(GetPersonByEmailQuery request, CancellationToken cancellationToken)
     {
-        Domain.Entities.Person person = await _context.Persons
-                                            .FirstOrDefaultAsync(t => t.Email == request.Email, cancellationToken) ??
-                                        throw new BadResponseException("Email not found or is disabled");
+        PersonDTO person = await _context.Persons
+            .Where(p => p.Email == request.Email)
+            .AsNoTracking()
+            .ProjectTo<PersonDTO>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(cancellationToken) ?? throw new NotFoundException(nameof(Person), request.Email);
 
-        PersonDTO t = _mapper.Map<PersonDTO>(person);
-        return t;
+        return person;
     }
 }

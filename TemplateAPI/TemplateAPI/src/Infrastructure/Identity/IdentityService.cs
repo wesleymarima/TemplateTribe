@@ -5,11 +5,11 @@ using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using TemplateAPI.Application.Common.Exceptions;
 using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Application.Common.Models;
-using TemplateAPI.Application.Features;
 using TemplateAPI.Application.Features.Auth;
 using TemplateAPI.Application.Features.Person.Queries;
 using TemplateAPI.Application.Features.Person.Queries.GetPersonByEmail;
@@ -19,6 +19,7 @@ namespace TemplateAPI.Infrastructure.Identity;
 public class IdentityService : IIdentityService
 {
     private readonly IAuthorizationService _authorizationService;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
     private readonly ISender _sender;
     private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
@@ -28,12 +29,13 @@ public class IdentityService : IIdentityService
     public IdentityService(
         UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-        IAuthorizationService authorizationService, ISender sender)
+        IAuthorizationService authorizationService, ISender sender, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
         _authorizationService = authorizationService;
         _sender = sender;
+        _roleManager = roleManager;
     }
 
     public async Task<string?> GetUserNameAsync(string userId)
@@ -109,6 +111,12 @@ public class IdentityService : IIdentityService
         AuthenticationResponse response = await GetToken(user.UserName!);
 
         return response;
+    }
+
+    public async Task<List<string>> GetRoles()
+    {
+        List<string> roles = await _roleManager.Roles.Select(x => x.Name!).ToListAsync();
+        return roles;
     }
 
     public async Task<Result> DeleteUserAsync(ApplicationUser user)

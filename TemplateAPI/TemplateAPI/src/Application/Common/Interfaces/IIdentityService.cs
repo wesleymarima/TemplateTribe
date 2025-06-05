@@ -1,5 +1,4 @@
 ﻿using TemplateAPI.Application.Common.Models;
-using TemplateAPI.Application.Features;
 using TemplateAPI.Application.Features.Auth;
 
 namespace TemplateAPI.Application.Common.Interfaces;
@@ -16,4 +15,5 @@ public interface IIdentityService
 
     Task<Result> DeleteUserAsync(string userId);
     Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request);
+    Task<List<string>> GetRoles();
 }

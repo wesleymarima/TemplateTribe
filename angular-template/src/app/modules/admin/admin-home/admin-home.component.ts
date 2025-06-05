@@ -13,6 +13,6 @@ export class AdminHomeComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.baseSharedService.updateTitle('Home');
+    this.baseSharedService.updateTitle('Admin Home');
   }
 }

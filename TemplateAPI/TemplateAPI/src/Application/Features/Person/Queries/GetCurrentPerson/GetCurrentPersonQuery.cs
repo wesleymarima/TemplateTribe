@@ -24,16 +24,11 @@ public class GetCurrentPersonQueryHandler : IRequestHandler<GetCurrentPersonQuer
 
     public async Task<PersonDTO> Handle(GetCurrentPersonQuery request, CancellationToken cancellationToken)
     {
-        Domain.Entities.Person person = await _context.Persons
+        PersonDTO person = await _context.Persons
             .Where(t => t.Email == _currentUserServiceService.Id)
             .AsNoTracking()
-            .FirstOrDefaultAsync(cancellationToken) ?? throw new BadResponseException("User not found");
-        PersonDTO t = _mapper.Map<PersonDTO>(person);
-        if (t == null)
-        {
-            throw new BadResponseException("Person location error");
-        }
-
-        return t;
+            .ProjectTo<PersonDTO>(_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(cancellationToken) ?? throw new BadResponseException("Person not foind");
+        return person;
     }
 }

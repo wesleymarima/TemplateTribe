@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Application.Features.Auth;
+using TemplateAPI.Domain.Constants;
 
 namespace TemplateAPI.Web.Controllers;
 
@@ -26,5 +27,13 @@ public class AuthController : ApiControllerBase
     public IActionResult TestAsync()
     {
         return Ok("Test");
+    }
+
+    [HttpGet("roles")]
+    [Authorize(Roles = Roles.ADMIN)]
+    public async Task<IActionResult> GetRoles()
+    {
+        List<string> response = await _identityService.GetRoles();
+        return Ok(response);
     }
 }

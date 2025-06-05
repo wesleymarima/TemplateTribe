@@ -1,1 +1,13 @@
-<p>admin-person-view works!</p>
+<div class="person-view-container">
+  <mat-card class="person-card">
+    <mat-card-header>
+      <mat-card-title>{{ person?.firstName }} {{ person?.lastName }}</mat-card-title>
+      <mat-card-subtitle>{{ person?.email }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p><strong>ID:</strong> {{ person?.id }}</p>
+      <p><strong>Application User ID:</strong> {{ person?.applicationUserId }}</p>
+      <p><strong>Role:</strong> {{ person?.role }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

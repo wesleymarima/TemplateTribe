@@ -16,4 +16,8 @@ export class AuthRestService {
   login(model: any): Observable<Token> {
     return this.http.post<Token>(this.baseURL + 'login', model)
   }
+
+  getRoles(): Observable<string[]> {
+    return this.http.get<string[]>(this.baseURL + 'roles');
+  }
 }

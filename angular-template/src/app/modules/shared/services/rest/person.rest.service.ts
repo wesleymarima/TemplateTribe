@@ -24,4 +24,8 @@ export class PersonRestService {
     });
   }
 
+  getById(id: number): Observable<Person> {
+    return this.http.get<Person>(this.baseURL + 'getbyid/' + id);
+  }
+
 }

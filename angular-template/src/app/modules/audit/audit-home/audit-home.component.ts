@@ -22,6 +22,7 @@ export class AuditHomeComponent extends BaseComponent {
       'startDate': new FormControl(null, [Validators.required]),
       'endDate': new FormControl(null, [Validators.required])
     });
+    this.updatePageName('Audit Home')
   }
 
   filterData() {
