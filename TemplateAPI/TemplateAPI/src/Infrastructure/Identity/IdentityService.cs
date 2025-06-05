@@ -149,7 +149,7 @@ public class IdentityService : IIdentityService
         };
         SymmetricSecurityKey signingKey =
             new(
-                Encoding.UTF8.GetBytes("SUPERSCURERBZKEY123#@!SUPERSECUREMEKEYSTRING"));
+                Encoding.UTF8.GetBytes("SUPERSCUREKEY123#@!SUPERSECUREMEKEYSTRING"));
         JwtSecurityToken token = new(
             "devtest",
             "devtest",

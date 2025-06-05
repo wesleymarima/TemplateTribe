@@ -24,4 +24,9 @@ export abstract class BaseComponent {
   updatePageName(pageName: string) {
     this.baseSharedService.updateTitle(pageName);
   }
+
+  changePage(event: { pageNumber: number; pageSize: number }) {
+    this.pageNumber = event.pageNumber;
+    this.pageSize = event.pageSize;
+  }
 }

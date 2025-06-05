@@ -85,7 +85,7 @@ public static class DependencyInjection
                 ValidIssuer = "devtest",
                 ValidAudience = "devtest",
                 IssuerSigningKey =
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SUPERSCURERBZKEY123#@!SUPERSECUREMEKEYSTRING"))
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SUPERSCUREKEY123#@!SUPERSECUREMEKEYSTRING"))
             };
         });
     }
