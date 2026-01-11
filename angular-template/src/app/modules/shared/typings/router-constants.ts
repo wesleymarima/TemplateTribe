@@ -6,4 +6,5 @@ export class RouterConstants {
 
   static ADMIN_USERS = '/admin/persons';
   static ADMIN_PERSON_VIEW = '/admin/person-view/'
+  static ADMIN_PERSON_CREATE = '/admin/person-create/';
 }

@@ -9,4 +9,5 @@ public class AuthenticationResponse
     public string Role { get; set; } = string.Empty;
     public string PersonId { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public string RefreshToken { get; set; } = string.Empty;
 }

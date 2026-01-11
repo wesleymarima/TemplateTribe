@@ -36,4 +36,12 @@ public class AuthController : ApiControllerBase
         List<string> response = await _identityService.GetRoles();
         return Ok(response);
     }
+
+    [HttpPost("create")]
+    [Authorize(Roles = Roles.ADMIN)]
+    public async Task<IActionResult> CreateUserAsync(NewUser createUser)
+    {
+        string response = await _identityService.CreateUserUserAsync(createUser);
+        return Ok(response);
+    }
 }

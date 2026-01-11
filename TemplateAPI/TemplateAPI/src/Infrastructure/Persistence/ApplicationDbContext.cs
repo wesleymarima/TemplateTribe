@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<TodoItem> TodoItems => Set<TodoItem>();
     public DbSet<Person> Persons => Set<Person>();
     public DbSet<Audit> Audit => Set<Audit>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

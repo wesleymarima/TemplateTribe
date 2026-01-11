@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TemplateAPI.Application.Common.Models;
+using TemplateAPI.Application.Features.Person.Commands.ChangeRole;
 using TemplateAPI.Application.Features.Person.Queries;
 using TemplateAPI.Application.Features.Person.Queries.GetAll;
 using TemplateAPI.Application.Features.Person.Queries.GetById;
@@ -24,5 +25,13 @@ public class PersonsController : ApiControllerBase
     {
         PersonDTO response = await Mediator.Send(new GetPersonByIdQuery { Id = id });
         return Ok(response);
+    }
+
+    [HttpPost("updaterole")]
+    [Authorize(Roles = Roles.ADMIN)]
+    public async Task<IActionResult> UpdateRole(ChangePersonRoleCommand command)
+    {
+        string result = await Mediator.Send(command);
+        return Ok(result);
     }
 }

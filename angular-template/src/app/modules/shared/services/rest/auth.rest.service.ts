@@ -20,4 +20,8 @@ export class AuthRestService {
   getRoles(): Observable<string[]> {
     return this.http.get<string[]>(this.baseURL + 'roles');
   }
+
+  createUser(model: any): Observable<string> {
+    return this.http.post<string>(this.baseURL + 'create', model);
+  }
 }

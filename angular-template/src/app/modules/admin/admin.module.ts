@@ -8,13 +8,15 @@ import {SharedModule} from '../shared/shared.module';
 import {AdminRoutes} from './admin.routing';
 import {AdminPersonsHomeComponent} from './admin-persons-home/admin-persons-home.component';
 import { AdminPersonViewComponent } from './admin-person-view/admin-person-view.component';
+import { AdminPersonCreateComponent } from './admin-person-create/admin-person-create.component';
 
 
 @NgModule({
   declarations: [
     AdminHomeComponent,
     AdminPersonsHomeComponent,
-    AdminPersonViewComponent
+    AdminPersonViewComponent,
+    AdminPersonCreateComponent
   ],
   imports: [
     CommonModule,

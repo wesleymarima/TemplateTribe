@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using FluentValidation.Results;
 using MediatR;
@@ -11,14 +12,18 @@ using TemplateAPI.Application.Common.Exceptions;
 using TemplateAPI.Application.Common.Interfaces;
 using TemplateAPI.Application.Common.Models;
 using TemplateAPI.Application.Features.Auth;
+using TemplateAPI.Application.Features.Person.Commands.Create;
 using TemplateAPI.Application.Features.Person.Queries;
 using TemplateAPI.Application.Features.Person.Queries.GetPersonByEmail;
+using TemplateAPI.Domain.Entities;
+using TemplateAPI.Infrastructure.Persistence;
 
 namespace TemplateAPI.Infrastructure.Identity;
 
 public class IdentityService : IIdentityService
 {
     private readonly IAuthorizationService _authorizationService;
+    private readonly ApplicationDbContext _context;
     private readonly RoleManager<IdentityRole> _roleManager;
 
     private readonly ISender _sender;
@@ -29,13 +34,15 @@ public class IdentityService : IIdentityService
     public IdentityService(
         UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-        IAuthorizationService authorizationService, ISender sender, RoleManager<IdentityRole> roleManager)
+        IAuthorizationService authorizationService, ISender sender, RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext context)
     {
         _userManager = userManager;
         _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
         _authorizationService = authorizationService;
         _sender = sender;
         _roleManager = roleManager;
+        _context = context;
     }
 
     public async Task<string?> GetUserNameAsync(string userId)
@@ -119,6 +126,47 @@ public class IdentityService : IIdentityService
         return roles;
     }
 
+    public async Task UpdateRolesAsync(string userId, string role)
+    {
+        ApplicationUser user = _userManager.Users.SingleOrDefault(x => x.Id == userId) ??
+                               throw new InvalidOperationException();
+
+        IList<string> roles = await _userManager.GetRolesAsync(user);
+        await _userManager.RemoveFromRolesAsync(user, roles);
+        IdentityResult result = await _userManager.AddToRoleAsync(user, role);
+    }
+
+    public Task<string> Logout()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<string> CreateUserUserAsync(NewUser newUser)
+    {
+        ApplicationUser? testUser = await _userManager.FindByEmailAsync(newUser.Email);
+
+        if (testUser != null)
+        {
+            throw new BadResponseException($"User with email {newUser.Email} already exists.");
+        }
+
+        ApplicationUser user = new() { Email = newUser.Email, UserName = newUser.Email };
+        IdentityResult result = await _userManager.CreateAsync(user, "Password@1");
+
+        await _userManager.AddToRoleAsync(user, newUser.Role);
+
+        await _sender.Send(new CreatePersonCommand
+        {
+            Email = newUser.Email,
+            FirstName = newUser.FirstName,
+            LastName = newUser.LastName,
+            Role = newUser.Role,
+            ApplicationUserId = user.Id
+        });
+
+        return "User created";
+    }
+
     public async Task<Result> DeleteUserAsync(ApplicationUser user)
     {
         IdentityResult result = await _userManager.DeleteAsync(user);
@@ -158,6 +206,7 @@ public class IdentityService : IIdentityService
             signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
         );
         PersonDTO personDto = await _sender.Send(new GetPersonByEmailQuery { Email = newUser.Email });
+        RefreshToken refreshToken = await CreateAndStoreRefreshToken(newUser);
         AuthenticationResponse authenticationResponse = new()
         {
             Id = newUser.Id,
@@ -166,8 +215,40 @@ public class IdentityService : IIdentityService
             Token = new JwtSecurityTokenHandler().WriteToken(token),
             Role = await GetUserRole(newUser.Id),
             PersonId = personDto.Id.ToString(),
-            Name = personDto.FirstName + " " + personDto.LastName
+            Name = personDto.FirstName + " " + personDto.LastName,
+            RefreshToken = refreshToken.Token
         };
         return authenticationResponse;
+    }
+
+    private string GenerateRefreshToken()
+    {
+        byte[] randomBytes = new byte[64];
+        using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes);
+    }
+
+    private async Task<RefreshToken> CreateAndStoreRefreshToken(ApplicationUser user)
+    {
+        RefreshToken refreshToken = new()
+        {
+            Token = GenerateRefreshToken(),
+            UserId = user.Id,
+            Expires = DateTime.UtcNow.AddDays(7),
+            IsRevoked = false
+        };
+        List<RefreshToken> existingTokens = await _context.RefreshTokens
+            .Where(rt => rt.UserId == user.Id)
+            .ToListAsync();
+        if (existingTokens.Count != 0)
+        {
+            _context.RefreshTokens.RemoveRange(existingTokens);
+            await _context.SaveChangesAsync();
+        }
+
+        await _context.RefreshTokens.AddAsync(refreshToken);
+        await _context.SaveChangesAsync();
+        return refreshToken;
     }
 }
