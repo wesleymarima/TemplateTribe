@@ -9,6 +9,12 @@ import {AdminRoutes} from './admin.routing';
 import {AdminPersonsHomeComponent} from './admin-persons-home/admin-persons-home.component';
 import { AdminPersonViewComponent } from './admin-person-view/admin-person-view.component';
 import { AdminPersonCreateComponent } from './admin-person-create/admin-person-create.component';
+import { AdminCompaniesHomeComponent } from './admin-companies-home/admin-companies-home.component';
+import { AdminCompanyCreateComponent } from './admin-company-create/admin-company-create.component';
+import { AdminCompanyViewComponent } from './admin-company-view/admin-company-view.component';
+import { AdminBranchesHomeComponent } from './admin-branches-home/admin-branches-home.component';
+import { AdminBranchCreateComponent } from './admin-branch-create/admin-branch-create.component';
+import { AdminBranchViewComponent } from './admin-branch-view/admin-branch-view.component';
 
 
 @NgModule({
@@ -16,7 +22,13 @@ import { AdminPersonCreateComponent } from './admin-person-create/admin-person-c
     AdminHomeComponent,
     AdminPersonsHomeComponent,
     AdminPersonViewComponent,
-    AdminPersonCreateComponent
+    AdminPersonCreateComponent,
+    AdminCompaniesHomeComponent,
+    AdminCompanyCreateComponent,
+    AdminCompanyViewComponent,
+    AdminBranchesHomeComponent,
+    AdminBranchCreateComponent,
+    AdminBranchViewComponent
   ],
   imports: [
     CommonModule,

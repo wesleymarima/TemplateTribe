@@ -27,11 +27,11 @@ public static class DependencyInjection
         builder.Services.Configure<ApiBehaviorOptions>(options =>
             options.SuppressModelStateInvalidFilter = true);
 
-        builder.Services.AddEndpointsApiExplorer();
-
         builder.Services.AddOpenApiDocument((configure, sp) =>
         {
+            configure.DocumentName = "v1";
             configure.Title = "TemplateAPI API";
+            configure.Version = "v1";
 
             // Add JWT
             configure.AddSecurity("JWT", Enumerable.Empty<string>(),

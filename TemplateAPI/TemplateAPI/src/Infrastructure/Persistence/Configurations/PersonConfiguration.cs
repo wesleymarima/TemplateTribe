@@ -11,5 +11,13 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.HasKey(p => p.Id);
         builder.HasIndex(t => t.ApplicationUserId).IsUnique();
         builder.HasIndex(t => t.Email).IsUnique();
+
+        // Branch relationship
+        builder.HasOne(p => p.Branch)
+            .WithMany(b => b.Persons)
+            .HasForeignKey(p => p.BranchId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasIndex(p => p.BranchId);
     }
 }

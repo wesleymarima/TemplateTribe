@@ -20,6 +20,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     }
 
     public DbSet<Audit> Audits => Set<Audit>();
+    public DbSet<Company> Companies => Set<Company>();
+    public DbSet<Branch> Branches => Set<Branch>();
 
     public DbSet<TodoList> TodoLists => Set<TodoList>();
 

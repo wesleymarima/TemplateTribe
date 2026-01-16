@@ -11,13 +11,18 @@ public class PersonDTO
     public string ApplicationUserId { get; set; } = string.Empty;
 
     public string Role { get; set; } = string.Empty;
+
+    public int BranchId { get; set; }
+
+    public string BranchName { get; set; } = string.Empty;
     // public DateTime Created { get; set; }
 
     private class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<Domain.Entities.Person, PersonDTO>();
+            CreateMap<Domain.Entities.Person, PersonDTO>()
+                .ForMember(d => d.BranchName, opt => opt.MapFrom(s => s.Branch.Name));
         }
     }
 }

@@ -12,34 +12,44 @@ builder.AddInfrastructureServices();
 builder.AddWebServices();
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
-builder.Services.AddSwaggerDocument();
 
 WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 await app.InitialiseDatabaseAsync();
-app.UseHsts();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerUi();
-}
 
 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+app.UseHsts();
+
+// CORS
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseSerilogRequestLogging();
+
+// Configure OpenAPI/Swagger
+app.UseOpenApi(settings =>
+{
+    settings.DocumentName = "v1";
+    settings.Path = "/api/specification.json";
+});
+
 app.UseSwaggerUi(settings =>
 {
-    settings.Path = "/api";
     settings.DocumentPath = "/api/specification.json";
+    settings.Path = "/api";
 });
+
 app.UseExceptionHandler(options => { });
+
 app.MapControllers();
 app.MapDefaultControllerRoute();
+
 app.Run();
 
 public partial class Program

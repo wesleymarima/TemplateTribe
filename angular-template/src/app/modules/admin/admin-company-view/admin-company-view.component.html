@@ -1,0 +1,254 @@
+<div class="form-container" *ngIf="company">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12">
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="toggleEdit()">
+          <mat-icon>{{ isEditing ? 'cancel' : 'edit' }}</mat-icon>
+          {{ isEditing ? 'Cancel' : 'Edit' }}
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteCompany()" *ngIf="!isEditing">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+        <button mat-stroked-button routerLink="{{RouterConstants.ADMIN_COMPANIES}}">
+          <mat-icon>arrow_back</mat-icon>
+          Back to List
+        </button>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <mat-card class="form-card">
+            <mat-card-header class="form-header" *ngIf="isEditing">
+              <mat-card-title>
+                <mat-icon class="header-icon">edit</mat-icon>
+                Edit Company
+              </mat-card-title>
+              <mat-card-subtitle>Update company information</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-header class="form-header" *ngIf="!isEditing">
+              <mat-card-title>
+                <mat-icon class="header-icon">business</mat-icon>
+                {{ company.name }}
+              </mat-card-title>
+              <mat-card-subtitle>Company Details</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content class="form-content">
+          <form [formGroup]="companyForm" (ngSubmit)="onSubmit()" *ngIf="isEditing">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Company Name</mat-label>
+                  <input type="text" formControlName="name" matInput required/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Legal Name</mat-label>
+                  <input type="text" formControlName="legalName" matInput required/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tax ID</mat-label>
+                  <input type="text" formControlName="taxId" matInput/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Registration Number</mat-label>
+                  <input type="text" formControlName="registrationNumber" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <input type="email" formControlName="email" matInput/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Phone</mat-label>
+                  <input type="text" formControlName="phone" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Website</mat-label>
+                  <input type="text" formControlName="website" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Address Line 1</mat-label>
+                  <input type="text" formControlName="addressLine1" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Address Line 2</mat-label>
+                  <input type="text" formControlName="addressLine2" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>City</mat-label>
+                  <input type="text" formControlName="city" matInput/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>State</mat-label>
+                  <input type="text" formControlName="state" matInput/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Postal Code</mat-label>
+                  <input type="text" formControlName="postalCode" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Country</mat-label>
+                  <input type="text" formControlName="country" matInput/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Currency ID</mat-label>
+                  <input type="number" formControlName="currencyId" matInput required/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Fiscal Year Start Month</mat-label>
+                  <input type="number" formControlName="fiscalYearStartMonth" matInput min="1" max="12" required/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-slide-toggle formControlName="isActive">Active</mat-slide-toggle>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <button type="submit" mat-raised-button color="primary" [disabled]="!companyForm.valid">
+                  Update Company
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div *ngIf="!isEditing">
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Legal Name:</strong></div>
+              <div class="col-md-6">{{ company.legalName }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Tax ID:</strong></div>
+              <div class="col-md-6">{{ company.taxId || 'N/A' }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Registration Number:</strong></div>
+              <div class="col-md-6">{{ company.registrationNumber || 'N/A' }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Email:</strong></div>
+              <div class="col-md-6">{{ company.email || 'N/A' }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Phone:</strong></div>
+              <div class="col-md-6">{{ company.phone || 'N/A' }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Website:</strong></div>
+              <div class="col-md-6">{{ company.website || 'N/A' }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Address:</strong></div>
+              <div class="col-md-6">
+                {{ company.addressLine1 }}<br *ngIf="company.addressLine1"/>
+                {{ company.addressLine2 }}<br *ngIf="company.addressLine2"/>
+                {{ company.city }}, {{ company.state }} {{ company.country }}
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Currency Code:</strong></div>
+              <div class="col-md-6">{{ company.currencyCode }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Fiscal Year Start:</strong></div>
+              <div class="col-md-6">Month {{ company.fiscalYearStartMonth }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-md-6"><strong>Status:</strong></div>
+              <div class="col-md-6">
+                <span [class]="company.isActive ? 'badge bg-success' : 'badge bg-danger'">
+                  {{ company.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-md-4">
+      <mat-card class="sidebar-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>store</mat-icon>
+            Branches ({{ company.branches.length || 0 }})
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list *ngIf="company.branches && company.branches.length > 0">
+            <mat-list-item *ngFor="let branch of company.branches">
+              <div class="d-flex justify-content-between w-100 align-items-center">
+                <div>
+                  <strong>{{ branch.name }}</strong>
+                  <br>
+                  <small class="text-muted">{{ branch.code }} • {{ branch.city }}</small>
+                </div>
+                <a mat-icon-button routerLink="{{RouterConstants.ADMIN_BRANCH_VIEW}}{{branch.id}}" color="primary">
+                  <mat-icon>arrow_forward</mat-icon>
+                </a>
+              </div>
+            </mat-list-item>
+          </mat-list>
+          <p *ngIf="!company.branches || company.branches.length === 0" class="text-center text-muted p-3">
+            <mat-icon>info</mat-icon><br>
+            No branches found
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+</div>
+

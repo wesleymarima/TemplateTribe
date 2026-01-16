@@ -28,4 +28,8 @@ export class PersonRestService {
     return this.http.get<Person>(this.baseURL + 'getbyid/' + id);
   }
 
+  updateRole(personId: number, role: string): Observable<any> {
+    return this.http.post(this.baseURL + 'updaterole', {personId, role});
+  }
+
 }

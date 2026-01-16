@@ -10,6 +10,8 @@ public interface IApplicationDbContext
     DbSet<Person> Persons { get; }
     DbSet<Audit> Audit { get; }
     DbSet<RefreshToken> RefreshTokens { get; }
+    DbSet<Company> Companies { get; }
+    DbSet<Branch> Branches { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

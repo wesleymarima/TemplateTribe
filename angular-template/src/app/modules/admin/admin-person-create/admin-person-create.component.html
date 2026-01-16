@@ -1,32 +1,87 @@
-<div class="container">
-  <div class="">
-    <form [formGroup]="userForm">
-      <div class="">
-        <mat-form-field>
-          <mat-label>Email;</mat-label>
-          <input type="email" name="email" formControlName="email" matInput/>
-        </mat-form-field>
-      </div>
-      <div class="">
-        <mat-form-field>
-          <mat-label>First Name</mat-label>
-          <input type="text" name="firstName" formControlName="firstName" matInput/>
-        </mat-form-field>
-      </div>
-      <div class="">
-        <mat-form-field>
-          <mat-label>Last Name</mat-label>
-          <input matInput type="text" name="lastName" formControlName="lastName"/>
-        </mat-form-field>
-      </div>
-      <div class="">
-        <mat-form-field>
-          <mat-label>Role</mat-label>
-          <mat-select formControlName="role">
-            <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </form>
+<div class="form-container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <mat-card class="form-card">
+        <mat-card-header class="form-header">
+          <mat-card-title>
+            <mat-icon class="header-icon">person_add</mat-icon>
+            Create New User
+          </mat-card-title>
+          <mat-card-subtitle>Add a new user to the system</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content class="form-content">
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-12 mb-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email Address</mat-label>
+                  <input type="email" name="email" formControlName="email" matInput required/>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                    Email is required
+                  </mat-error>
+                  <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+                    Please enter a valid email
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>First Name</mat-label>
+                  <input type="text" name="firstName" formControlName="firstName" matInput required/>
+                  <mat-icon matPrefix>person</mat-icon>
+                  <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
+                    First name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Last Name</mat-label>
+                  <input type="text" name="lastName" formControlName="lastName" matInput required/>
+                  <mat-icon matPrefix>person</mat-icon>
+                  <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
+                    Last name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Role</mat-label>
+                  <mat-select formControlName="role" required>
+                    <mat-option *ngFor="let role of roles" [value]="role">
+                      {{ role }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>admin_panel_settings</mat-icon>
+                  <mat-error *ngIf="userForm.get('role')?.hasError('required')">
+                    Role is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" mat-raised-button color="primary" class="submit-btn" [disabled]="!userForm.valid">
+                <mat-icon>save</mat-icon>
+                Create User
+              </button>
+              <button type="button" mat-stroked-button color="accent" routerLink="/admin/persons" class="cancel-btn">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>

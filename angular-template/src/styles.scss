@@ -12,4 +12,873 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+// ================================
+// Admin Form Styles
+// ================================
 
+// Base form container
+.form-container {
+  padding: 2rem 0;
+  min-height: calc(100vh - 200px);
+}
+
+// Form card styling
+.form-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  animation: slideInUp 0.4s ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+  }
+}
+
+// Form header with solid color
+.form-header {
+  background: #5e72e4;
+  color: white;
+  padding: 1.5rem 2rem;
+  margin: -16px -16px 0 -16px;
+
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  mat-card-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+  }
+
+  .header-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Form content area
+.form-content {
+  padding: 2rem;
+}
+
+// Material form field styling
+mat-form-field {
+  &.mat-form-field-appearance-outline {
+    .mat-form-field-outline {
+      color: rgba(0, 0, 0, 0.12);
+    }
+
+    &.mat-focused .mat-form-field-outline-thick {
+      color: #5e72e4;
+    }
+
+    .mat-form-field-label {
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    &.mat-focused .mat-form-field-label {
+      color: #5e72e4;
+    }
+  }
+
+  mat-icon[matPrefix] {
+    margin-right: 0.75rem;
+    color: rgba(0, 0, 0, 0.54);
+  }
+
+  &.mat-focused mat-icon[matPrefix] {
+    color: #5e72e4;
+  }
+}
+
+// Form actions (buttons at bottom)
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  button {
+    min-width: 140px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+    mat-icon {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .submit-btn {
+    background: #5e72e4;
+    color: white;
+  }
+
+  .cancel-btn {
+    border: 2px solid #5e72e4;
+    color: #5e72e4;
+
+    &:hover {
+      background-color: rgba(94, 114, 228, 0.05);
+    }
+  }
+}
+
+// Section titles in forms
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #5e72e4;
+  margin: 2rem 0 1.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(94, 114, 228, 0.2);
+
+  mat-icon {
+    color: #5e72e4;
+  }
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+// View section for detail pages
+.view-section {
+  margin-bottom: 2rem;
+
+  .detail-row {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    strong {
+      color: #5e72e4;
+      font-weight: 600;
+    }
+  }
+}
+
+// Action buttons for view/edit pages
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+
+  button {
+    min-width: 120px;
+
+    mat-icon {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+// Sidebar card styling
+.sidebar-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+
+  mat-card-header {
+    background: #5e72e4;
+    color: white;
+    padding: 1rem;
+    margin: -16px -16px 0 -16px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  mat-list-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+// Toggle label styling
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+
+  mat-icon {
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+}
+
+// Slide toggle spacing
+mat-slide-toggle {
+  margin-top: 1rem;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .form-container {
+    padding: 1rem 0;
+  }
+
+  .form-content {
+    padding: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// Animations
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ================================
+// Global Button Styles
+// ================================
+
+// Material Button Base Styling
+button[mat-raised-button],
+button[mat-flat-button],
+button[mat-stroked-button],
+button[mat-button],
+.mat-mdc-raised-button,
+.mat-mdc-flat-button,
+.mat-mdc-stroked-button,
+.mat-mdc-button {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.3s ease !important;
+
+  mat-icon {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Primary Button (mat-raised-button with color="primary")
+button[mat-raised-button][color="primary"],
+.mat-mdc-raised-button.mat-primary {
+  background-color: #5e72e4 !important;
+  color: white !important;
+
+  &:hover:not(:disabled) {
+    background-color: #4c63d2 !important;
+    box-shadow: 0 4px 12px rgba(94, 114, 228, 0.4) !important;
+  }
+}
+
+// Accent Button
+button[mat-raised-button][color="accent"],
+.mat-mdc-raised-button.mat-accent {
+  background-color: #11cdef !important;
+  color: white !important;
+
+  &:hover:not(:disabled) {
+    background-color: #0da5c0 !important;
+    box-shadow: 0 4px 12px rgba(17, 205, 239, 0.4) !important;
+  }
+}
+
+// Warn/Danger Button
+button[mat-raised-button][color="warn"],
+.mat-mdc-raised-button.mat-warn {
+  background-color: #f5365c !important;
+  color: white !important;
+
+  &:hover:not(:disabled) {
+    background-color: #ec0c38 !important;
+    box-shadow: 0 4px 12px rgba(245, 54, 92, 0.4) !important;
+  }
+}
+
+// Success Button (custom class)
+button.btn-success,
+button[mat-raised-button].btn-success {
+  background-color: #2dce89 !important;
+  color: white !important;
+
+  &:hover:not(:disabled) {
+    background-color: #24a46d !important;
+    box-shadow: 0 4px 12px rgba(45, 206, 137, 0.4) !important;
+  }
+}
+
+// Stroked/Outlined Buttons
+button[mat-stroked-button],
+.mat-mdc-stroked-button {
+  border: 2px solid #5e72e4 !important;
+  color: #5e72e4 !important;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(94, 114, 228, 0.05) !important;
+    border-color: #4c63d2 !important;
+  }
+
+  &[color="accent"] {
+    border-color: #11cdef !important;
+    color: #11cdef !important;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(17, 205, 239, 0.05) !important;
+      border-color: #0da5c0 !important;
+    }
+  }
+
+  &[color="warn"] {
+    border-color: #f5365c !important;
+    color: #f5365c !important;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(245, 54, 92, 0.05) !important;
+      border-color: #ec0c38 !important;
+    }
+  }
+}
+
+// Flat/Text Buttons
+button[mat-button],
+button[mat-flat-button],
+.mat-mdc-button,
+.mat-mdc-flat-button {
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  &[color="primary"] {
+    color: #5e72e4 !important;
+  }
+
+  &[color="accent"] {
+    color: #11cdef !important;
+  }
+
+  &[color="warn"] {
+    color: #f5365c !important;
+  }
+}
+
+// Icon Buttons
+button[mat-icon-button],
+.mat-mdc-icon-button {
+  border-radius: 50% !important;
+  transition: all 0.3s ease !important;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.08) !important;
+    transform: scale(1.1);
+  }
+}
+
+// FAB (Floating Action Button)
+button[mat-fab],
+button[mat-mini-fab],
+.mat-mdc-fab,
+.mat-mdc-mini-fab {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+    transform: translateY(-3px);
+  }
+}
+
+// Button Groups
+.button-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  button {
+    flex: 0 1 auto;
+  }
+}
+
+// Button Sizes
+button.btn-sm,
+button[mat-raised-button].btn-sm {
+  padding: 0.4rem 1rem !important;
+  font-size: 0.875rem !important;
+  min-width: 80px !important;
+}
+
+button.btn-lg,
+button[mat-raised-button].btn-lg {
+  padding: 0.8rem 2rem !important;
+  font-size: 1.1rem !important;
+  min-width: 160px !important;
+}
+
+// Full Width Button
+button.btn-block,
+button[mat-raised-button].btn-block {
+  width: 100% !important;
+  display: block !important;
+}
+
+// Button with Icon Only (no text)
+button.icon-only {
+  min-width: unset !important;
+  padding: 0.5rem 0.5rem !important;
+
+  mat-icon {
+    margin: 0 !important;
+  }
+}
+
+// ================================
+// Global Table Styles
+// ================================
+
+// Page container for tables
+.page-container {
+  padding: 1.5rem;
+  min-height: calc(100vh - 200px);
+}
+
+// Table container
+.table-container {
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  &.mat-elevation-z8 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+
+// Material Table Base Styling
+table[mat-table],
+.mat-mdc-table {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+
+  // Table Header
+  thead,
+  .mat-mdc-header-row {
+    background: linear-gradient(135deg, #5e72e4 0%, #4c63d2 100%);
+  }
+
+  th[mat-header-cell],
+  .mat-mdc-header-cell {
+    background: transparent;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem !important;
+    border-bottom: none !important;
+
+    &:first-of-type {
+      padding-left: 1.5rem !important;
+    }
+
+    &:last-of-type {
+      padding-right: 1.5rem !important;
+    }
+  }
+
+  // Table Header Row
+  tr[mat-header-row],
+  .mat-mdc-header-row {
+    height: 56px !important;
+    background: transparent;
+  }
+
+  // Table Body Rows
+  tbody,
+  .mat-mdc-table tbody {
+    tr[mat-row],
+    .mat-mdc-row {
+      height: 60px !important;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      // Striped rows
+      &:nth-child(even) {
+        background-color: rgba(94, 114, 228, 0.02);
+      }
+
+      &:nth-child(odd) {
+        background-color: white;
+      }
+
+      // Hover effect
+      &:hover {
+        background-color: rgba(94, 114, 228, 0.08) !important;
+        transform: scale(1.001);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+      }
+
+      // Active/Selected row
+      &.selected,
+      &.active {
+        background-color: rgba(94, 114, 228, 0.12) !important;
+      }
+    }
+  }
+
+  // Table Cells
+  td[mat-cell],
+  .mat-mdc-cell {
+    padding: 1rem !important;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.87);
+    border-bottom: none !important;
+
+    &:first-of-type {
+      padding-left: 1.5rem !important;
+    }
+
+    &:last-of-type {
+      padding-right: 1.5rem !important;
+    }
+
+    // ID column styling
+    &:first-child {
+      font-weight: 500;
+      color: #5e72e4;
+    }
+  }
+
+  // Footer Row
+  tr[mat-footer-row],
+  .mat-mdc-footer-row {
+    background: #f8f9fa;
+    font-weight: 500;
+    border-top: 2px solid rgba(0, 0, 0, 0.12);
+  }
+
+  td[mat-footer-cell],
+  .mat-mdc-footer-cell {
+    padding: 1rem !important;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+// Badge Styling in Tables
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.bg-success {
+    background-color: #2dce89 !important;
+    color: white;
+  }
+
+  &.bg-danger {
+    background-color: #f5365c !important;
+    color: white;
+  }
+
+  &.bg-warning {
+    background-color: #fb6340 !important;
+    color: white;
+  }
+
+  &.bg-info {
+    background-color: #11cdef !important;
+    color: white;
+  }
+
+  &.bg-primary {
+    background-color: #5e72e4 !important;
+    color: white;
+  }
+
+  &.bg-secondary {
+    background-color: #8898aa !important;
+    color: white;
+  }
+
+  &.bg-light {
+    background-color: #f8f9fa !important;
+    color: #32325d;
+  }
+
+  &.bg-dark {
+    background-color: #32325d !important;
+    color: white;
+  }
+}
+
+// Table Actions Column
+td[mat-cell]:last-child,
+.mat-mdc-cell:last-child {
+  .button-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  button[mat-icon-button] {
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+}
+
+// Empty State
+.table-empty-state {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    color: rgba(0, 0, 0, 0.26);
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: rgba(0, 0, 0, 0.54);
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Pagination Container
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+// Table Loading State
+.table-loading {
+  padding: 3rem;
+  text-align: center;
+
+  mat-spinner {
+    margin: 0 auto;
+  }
+}
+
+// Responsive Table
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table[mat-table],
+  .mat-mdc-table {
+    min-width: 600px;
+  }
+
+  th[mat-header-cell],
+  .mat-mdc-header-cell,
+  td[mat-cell],
+  .mat-mdc-cell {
+    padding: 0.75rem !important;
+
+    &:first-of-type {
+      padding-left: 1rem !important;
+    }
+
+    &:last-of-type {
+      padding-right: 1rem !important;
+    }
+  }
+}
+
+// Table with Sticky Header
+.table-sticky-header {
+  th[mat-header-cell],
+  .mat-mdc-header-cell {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(135deg, #5e72e4 0%, #4c63d2 100%);
+  }
+}
+
+// Table Density Variants
+.table-dense {
+  tr[mat-row],
+  .mat-mdc-row {
+    height: 48px !important;
+  }
+
+  th[mat-header-cell],
+  .mat-mdc-header-cell,
+  td[mat-cell],
+  .mat-mdc-cell {
+    padding: 0.5rem !important;
+  }
+}
+
+.table-comfortable {
+  tr[mat-row],
+  .mat-mdc-row {
+    height: 72px !important;
+  }
+
+  th[mat-header-cell],
+  .mat-mdc-header-cell,
+  td[mat-cell],
+  .mat-mdc-cell {
+    padding: 1.5rem !important;
+  }
+}
+
+// Sortable Table Headers
+th[mat-header-cell][mat-sort-header],
+.mat-mdc-header-cell[mat-sort-header] {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .mat-sort-header-arrow {
+    color: white !important;
+  }
+}
+
+// Table Links
+table[mat-table],
+.mat-mdc-table {
+  a {
+    color: #5e72e4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #4c63d2;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Table Column Alignment
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+// Table Cell Truncation
+.cell-truncate {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Table Highlight
+.row-highlight {
+  background-color: rgba(255, 193, 7, 0.1) !important;
+  border-left: 3px solid #ffc107 !important;
+}
+
+.row-error {
+  background-color: rgba(245, 54, 92, 0.1) !important;
+  border-left: 3px solid #f5365c !important;
+}
+
+.row-success {
+  background-color: rgba(45, 206, 137, 0.1) !important;
+  border-left: 3px solid #2dce89 !important;
+}

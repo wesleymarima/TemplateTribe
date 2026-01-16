@@ -1,0 +1,191 @@
+<div class="form-container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12">
+      <mat-card class="form-card">
+        <mat-card-header class="form-header">
+          <mat-card-title>
+            <mat-icon class="header-icon">business</mat-icon>
+            Create New Company
+          </mat-card-title>
+          <mat-card-subtitle>Add a new company to the system</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content class="form-content">
+          <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+            <!-- Basic Information -->
+            <h3 class="section-title">
+              <mat-icon>info</mat-icon>
+              Basic Information
+            </h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Company Name</mat-label>
+                  <input type="text" formControlName="name" matInput required/>
+                  <mat-icon matPrefix>business</mat-icon>
+                  <mat-error>Company name is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Legal Name</mat-label>
+                  <input type="text" formControlName="legalName" matInput required/>
+                  <mat-icon matPrefix>gavel</mat-icon>
+                  <mat-error>Legal name is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Tax ID</mat-label>
+                  <input type="text" formControlName="taxId" matInput/>
+                  <mat-icon matPrefix>receipt</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Registration Number</mat-label>
+                  <input type="text" formControlName="registrationNumber" matInput/>
+                  <mat-icon matPrefix>badge</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Contact Information -->
+            <h3 class="section-title">
+              <mat-icon>contact_mail</mat-icon>
+              Contact Information
+            </h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <input type="email" formControlName="email" matInput/>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <mat-error>Please enter a valid email</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Phone</mat-label>
+                  <input type="text" formControlName="phone" matInput/>
+                  <mat-icon matPrefix>phone</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Website</mat-label>
+                  <input type="text" formControlName="website" matInput/>
+                  <mat-icon matPrefix>language</mat-icon>
+                  <mat-hint>e.g., https://example.com</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Address Information -->
+            <h3 class="section-title">
+              <mat-icon>location_on</mat-icon>
+              Address Information
+            </h3>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Address Line 1</mat-label>
+                  <input type="text" formControlName="addressLine1" matInput/>
+                  <mat-icon matPrefix>home</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Address Line 2</mat-label>
+                  <input type="text" formControlName="addressLine2" matInput/>
+                  <mat-icon matPrefix>home</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>City</mat-label>
+                  <input type="text" formControlName="city" matInput/>
+                  <mat-icon matPrefix>location_city</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>State</mat-label>
+                  <input type="text" formControlName="state" matInput/>
+                  <mat-icon matPrefix>map</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Postal Code</mat-label>
+                  <input type="text" formControlName="postalCode" matInput/>
+                  <mat-icon matPrefix>markunread_mailbox</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Country</mat-label>
+                  <input type="text" formControlName="country" matInput/>
+                  <mat-icon matPrefix>public</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Financial Information -->
+            <h3 class="section-title">
+              <mat-icon>account_balance</mat-icon>
+              Financial Settings
+            </h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Currency ID</mat-label>
+                  <input type="number" formControlName="currencyId" matInput required/>
+                  <mat-icon matPrefix>attach_money</mat-icon>
+                  <mat-error>Currency ID is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Fiscal Year Start Month</mat-label>
+                  <input type="number" formControlName="fiscalYearStartMonth" matInput min="1" max="12" required/>
+                  <mat-icon matPrefix>calendar_month</mat-icon>
+                  <mat-hint>Enter month number (1-12)</mat-hint>
+                  <mat-error>Month must be between 1 and 12</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" mat-raised-button color="primary" class="submit-btn"
+                      [disabled]="!companyForm.valid">
+                <mat-icon>save</mat-icon>
+                Create Company
+              </button>
+              <button type="button" mat-stroked-button color="accent" routerLink="/admin/companies" class="cancel-btn">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

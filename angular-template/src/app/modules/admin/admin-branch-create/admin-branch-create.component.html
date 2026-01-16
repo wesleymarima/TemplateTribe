@@ -1,0 +1,190 @@
+<div class="form-container">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12">
+      <mat-card class="form-card">
+        <mat-card-header class="form-header">
+          <mat-card-title>
+            <mat-icon class="header-icon">store</mat-icon>
+            Create New Branch
+          </mat-card-title>
+          <mat-card-subtitle>Add a new branch location</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content class="form-content">
+          <form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
+            <!-- Basic Information -->
+            <h3 class="section-title">
+              <mat-icon>info</mat-icon>
+              Basic Information
+            </h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Branch Name</mat-label>
+                  <input type="text" formControlName="name" matInput required/>
+                  <mat-icon matPrefix>store</mat-icon>
+                  <mat-error>Branch name is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Branch Code</mat-label>
+                  <input type="text" formControlName="code" matInput required/>
+                  <mat-icon matPrefix>qr_code</mat-icon>
+                  <mat-error>Branch code is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Company</mat-label>
+                  <mat-select formControlName="companyId" required>
+                    <mat-option *ngFor="let company of companies" [value]="company.id">
+                      {{ company.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matPrefix>business</mat-icon>
+                  <mat-error>Company selection is required</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Branch Type</mat-label>
+                  <input type="text" formControlName="branchType" matInput required/>
+                  <mat-icon matPrefix>category</mat-icon>
+                  <mat-hint>e.g., Headquarters, Regional, Local</mat-hint>
+                  <mat-error>Branch type is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3 d-flex align-items-center">
+                <mat-slide-toggle formControlName="isHeadquarters" color="primary">
+                  <span class="toggle-label">
+                    <mat-icon>apartment</mat-icon>
+                    Is Headquarters
+                  </span>
+                </mat-slide-toggle>
+              </div>
+            </div>
+
+            <!-- Contact Information -->
+            <h3 class="section-title">
+              <mat-icon>contact_mail</mat-icon>
+              Contact Information
+            </h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <input type="email" formControlName="email" matInput/>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <mat-error>Please enter a valid email</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Phone</mat-label>
+                  <input type="text" formControlName="phone" matInput/>
+                  <mat-icon matPrefix>phone</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Description</mat-label>
+                  <textarea formControlName="description" matInput rows="3"></textarea>
+                  <mat-icon matPrefix>description</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Address Information -->
+            <h3 class="section-title">
+              <mat-icon>location_on</mat-icon>
+              Address Information
+            </h3>
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Address Line 1</mat-label>
+                  <input type="text" formControlName="addressLine1" matInput/>
+                  <mat-icon matPrefix>home</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Address Line 2</mat-label>
+                  <input type="text" formControlName="addressLine2" matInput/>
+                  <mat-icon matPrefix>home</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>City</mat-label>
+                  <input type="text" formControlName="city" matInput/>
+                  <mat-icon matPrefix>location_city</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>State</mat-label>
+                  <input type="text" formControlName="state" matInput/>
+                  <mat-icon matPrefix>map</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Postal Code</mat-label>
+                  <input type="text" formControlName="postalCode" matInput/>
+                  <mat-icon matPrefix>markunread_mailbox</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Country</mat-label>
+                  <input type="text" formControlName="country" matInput/>
+                  <mat-icon matPrefix>public</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Business Hours</mat-label>
+                  <input type="text" formControlName="businessHours" matInput/>
+                  <mat-icon matPrefix>access_time</mat-icon>
+                  <mat-hint>e.g., Mon-Fri 9:00AM-5:00PM</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" mat-raised-button color="primary" class="submit-btn" [disabled]="!branchForm.valid">
+                <mat-icon>save</mat-icon>
+                Create Branch
+              </button>
+              <button type="button" mat-stroked-button color="accent" routerLink="/admin/branches" class="cancel-btn">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+

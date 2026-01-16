@@ -11,6 +11,16 @@ export const AdminSideBarData: SideBarItem[] = [
     icon: 'person',
     path: RouterConstants.ADMIN_USERS,
     name: 'Users'
+  },
+  {
+    icon: 'business',
+    path: RouterConstants.ADMIN_COMPANIES,
+    name: 'Companies'
+  },
+  {
+    icon: 'store',
+    path: RouterConstants.ADMIN_BRANCHES,
+    name: 'Branches'
   }
 ]
 

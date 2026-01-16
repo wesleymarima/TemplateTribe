@@ -9,6 +9,7 @@ public class CreatePersonCommand : IRequest<int>
     public string Email { get; set; } = string.Empty;
     public string ApplicationUserId { get; set; } = string.Empty;
     public string Role { get; set; } = string.Empty;
+    public int BranchId { get; set; }
 }
 
 public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, int>
@@ -29,6 +30,7 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, i
             Email = request.Email,
             ApplicationUserId = request.ApplicationUserId,
             Role = request.Role,
+            BranchId = request.BranchId
         };
         await _context.Persons.AddAsync(entity, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
