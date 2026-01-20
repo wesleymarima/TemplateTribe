@@ -52,13 +52,22 @@ public class IdentityService : IIdentityService
         return user?.UserName;
     }
 
-    public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
+    public async Task<(OperationResult Result, string UserId)> CreateUserAsync(string userName, string password)
     {
         ApplicationUser user = new() { UserName = userName, Email = userName };
 
         IdentityResult result = await _userManager.CreateAsync(user, password);
 
         return (result.ToApplicationResult(), user.Id);
+    }
+
+    public async Task<OperationResult> DeleteUserAsync(string userId)
+    {
+        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
+
+        return user != null
+            ? await DeleteUserAsync(user)
+            : OperationResult.SuccessResult("User not found or already deleted.");
     }
 
     public async Task<bool> IsInRoleAsync(string userId, string role)
@@ -82,13 +91,6 @@ public class IdentityService : IIdentityService
         AuthorizationResult result = await _authorizationService.AuthorizeAsync(principal, policyName);
 
         return result.Succeeded;
-    }
-
-    public async Task<Result> DeleteUserAsync(string userId)
-    {
-        ApplicationUser? user = await _userManager.FindByIdAsync(userId);
-
-        return user != null ? await DeleteUserAsync(user) : Result.Success();
     }
 
     public async Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request)
@@ -167,7 +169,137 @@ public class IdentityService : IIdentityService
         return "User created";
     }
 
-    public async Task<Result> DeleteUserAsync(ApplicationUser user)
+    // Role Management Methods
+    public async Task<OperationResult<string>> CreateRoleAsync(string roleName)
+    {
+        try
+        {
+            IdentityRole? existingRole = await _roleManager.FindByNameAsync(roleName);
+
+            if (existingRole != null)
+            {
+                return OperationResult<string>.FailureResult($"Role '{roleName}' already exists.");
+            }
+
+            IdentityRole role = new(roleName);
+            IdentityResult result = await _roleManager.CreateAsync(role);
+
+            if (!result.Succeeded)
+            {
+                List<string> errors = result.Errors.Select(e => e.Description).ToList();
+                return OperationResult<string>.FailureResult($"Failed to create role: {string.Join(", ", errors)}",
+                    errors);
+            }
+
+            return OperationResult<string>.SuccessResult(role.Id, $"Role '{roleName}' created successfully.");
+        }
+        catch (Exception ex)
+        {
+            return OperationResult<string>.FailureResult($"An error occurred while creating the role: {ex.Message}");
+        }
+    }
+
+    public async Task<OperationResult> UpdateRoleAsync(string roleId, string newRoleName)
+    {
+        try
+        {
+            IdentityRole? role = await _roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                return OperationResult.FailureResult($"Role with ID '{roleId}' not found.");
+            }
+
+            // Check if new name already exists (excluding current role)
+            IdentityRole? existingRole = await _roleManager.FindByNameAsync(newRoleName);
+            if (existingRole != null && existingRole.Id != roleId)
+            {
+                return OperationResult.FailureResult($"Role name '{newRoleName}' is already in use.");
+            }
+
+            role.Name = newRoleName;
+            IdentityResult result = await _roleManager.UpdateAsync(role);
+
+            if (!result.Succeeded)
+            {
+                List<string> errors = result.Errors.Select(e => e.Description).ToList();
+                return OperationResult.FailureResult($"Failed to update role: {string.Join(", ", errors)}", errors);
+            }
+
+            return OperationResult.SuccessResult("Role updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            return OperationResult.FailureResult($"An error occurred while updating the role: {ex.Message}");
+        }
+    }
+
+    public async Task<OperationResult> DeleteRoleAsync(string roleId)
+    {
+        try
+        {
+            IdentityRole? role = await _roleManager.FindByIdAsync(roleId);
+
+            if (role == null)
+            {
+                return OperationResult.FailureResult($"Role with ID '{roleId}' not found.");
+            }
+
+            // Check if any users are assigned to this role
+            IList<ApplicationUser> usersInRole = await _userManager.GetUsersInRoleAsync(role.Name!);
+            if (usersInRole.Any())
+            {
+                return OperationResult.FailureResult(
+                    $"Cannot delete role '{role.Name}' because it has {usersInRole.Count} user(s) assigned to it.");
+            }
+
+            IdentityResult result = await _roleManager.DeleteAsync(role);
+
+            if (!result.Succeeded)
+            {
+                List<string> errors = result.Errors.Select(e => e.Description).ToList();
+                return OperationResult.FailureResult($"Failed to delete role: {string.Join(", ", errors)}", errors);
+            }
+
+            return OperationResult.SuccessResult($"Role '{role.Name}' deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            return OperationResult.FailureResult($"An error occurred while deleting the role: {ex.Message}");
+        }
+    }
+
+    public async Task<(string Id, string Name, int UsersCount)?> GetRoleByIdAsync(string roleId)
+    {
+        IdentityRole? role = await _roleManager.FindByIdAsync(roleId);
+
+        if (role == null)
+        {
+            return null;
+        }
+
+        IList<ApplicationUser> usersInRole = await _userManager.GetUsersInRoleAsync(role.Name!);
+
+        return (role.Id, role.Name!, usersInRole.Count);
+    }
+
+    public async Task<List<(string Id, string Name, int UsersCount)>> GetAllRolesAsync()
+    {
+        List<IdentityRole> roles = await _roleManager.Roles.ToListAsync();
+
+        List<(string Id, string Name, int UsersCount)> result = new();
+
+        foreach (IdentityRole role in roles)
+        {
+            IList<ApplicationUser> usersInRole = await _userManager.GetUsersInRoleAsync(role.Name!);
+            result.Add((role.Id, role.Name!, usersInRole.Count));
+        }
+
+        return result;
+    }
+
+
+    public async Task<OperationResult> DeleteUserAsync(ApplicationUser user)
     {
         IdentityResult result = await _userManager.DeleteAsync(user);
 

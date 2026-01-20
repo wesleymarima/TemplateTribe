@@ -18,6 +18,20 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
             .IsRequired()
             .HasMaxLength(50);
 
+        builder.Property(b => b.Country)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(b => b.City)
+            .IsRequired()
+            .HasMaxLength(100);
+
+        builder.Property(b => b.State)
+            .HasMaxLength(100);
+
+        builder.Property(b => b.PostalCode)
+            .HasMaxLength(20);
+
         builder.Property(b => b.Email)
             .HasMaxLength(100);
 
@@ -34,9 +48,10 @@ public class BranchConfiguration : IEntityTypeConfiguration<Branch>
             .OnDelete(DeleteBehavior.Restrict);
 
 
-        builder.HasIndex(b => b.Code)
+        builder.HasIndex(b => new { b.CompanyId, b.Code })
             .IsUnique();
 
         builder.HasIndex(b => new { b.CompanyId, b.Name });
+        builder.HasIndex(b => b.IsActive);
     }
 }

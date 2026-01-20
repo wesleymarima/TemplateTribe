@@ -30,4 +30,8 @@ public class Company : BaseAuditableEntity
 
     // Relationships
     public ICollection<Branch> Branches { get; set; } = new List<Branch>();
+    public ICollection<Department> Departments { get; set; } = new List<Department>();
+    public ICollection<CostCenter> CostCenters { get; set; } = new List<CostCenter>();
+    public ICollection<ExchangeRate> ExchangeRates { get; set; } = new List<ExchangeRate>();
+    public ICollection<FinancialPeriod> FinancialPeriods { get; set; } = new List<FinancialPeriod>();
 }

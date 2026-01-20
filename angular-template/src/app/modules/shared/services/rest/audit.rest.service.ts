@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {BaseResponse} from '../../models/base-response';
 import {Audit} from '../../models/audit';
 import {PaginatedHttpService} from './paginated-http.service';
+import {FilterAllAuditByDateQuery} from '../../models/common';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,7 @@ export class AuditRestService {
     });
   }
 
-  filterData(model: any): Observable<BaseResponse<Audit>> {
-    // return this.http.post<BaseResponse<Audit>>(this.baseURL + 'range', model);
-    return this.paginatedHttpService.post<BaseResponse<Audit>>(this.baseURL + 'range', model);
+  filterData(query: FilterAllAuditByDateQuery): Observable<BaseResponse<Audit>> {
+    return this.paginatedHttpService.post<BaseResponse<Audit>>(this.baseURL + 'range', query);
   }
 }

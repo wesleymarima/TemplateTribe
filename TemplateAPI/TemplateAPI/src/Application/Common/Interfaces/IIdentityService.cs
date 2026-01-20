@@ -11,13 +11,20 @@ public interface IIdentityService
 
     Task<bool> AuthorizeAsync(string userId, string policyName);
 
-    Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password);
+    Task<(OperationResult Result, string UserId)> CreateUserAsync(string userName, string password);
 
-    Task<Result> DeleteUserAsync(string userId);
+    Task<OperationResult> DeleteUserAsync(string userId);
     Task<AuthenticationResponse> LoginAsync(AuthenticationRequest request);
     Task<List<string>> GetRoles();
     Task UpdateRolesAsync(string userId, string role);
 
     Task<string> Logout();
     Task<string> CreateUserUserAsync(NewUser newUser);
+
+    // Role Management
+    Task<OperationResult<string>> CreateRoleAsync(string roleName);
+    Task<OperationResult> UpdateRoleAsync(string roleId, string newRoleName);
+    Task<OperationResult> DeleteRoleAsync(string roleId);
+    Task<(string Id, string Name, int UsersCount)?> GetRoleByIdAsync(string roleId);
+    Task<List<(string Id, string Name, int UsersCount)>> GetAllRolesAsync();
 }

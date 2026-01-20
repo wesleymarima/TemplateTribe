@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {BaseResponse} from '../../models/base-response';
 import {Person} from '../../models/person';
 import {Observable} from 'rxjs';
+import {ChangePersonRoleCommand} from '../../models/common';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class PersonRestService {
     return this.http.get<Person>(this.baseURL + 'getbyid/' + id);
   }
 
-  updateRole(personId: number, role: string): Observable<any> {
-    return this.http.post(this.baseURL + 'updaterole', {personId, role});
+  updateRole(command: ChangePersonRoleCommand): Observable<any> {
+    return this.http.post(this.baseURL + 'updaterole', command);
   }
 
 }

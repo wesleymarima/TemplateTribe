@@ -20,6 +20,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     }
 
     public DbSet<Audit> Audits => Set<Audit>();
+    public DbSet<Currency> Currencies => Set<Currency>();
+    public DbSet<Department> Departments => Set<Department>();
+    public DbSet<CostCenter> CostCenters => Set<CostCenter>();
+    public DbSet<ExchangeRate> ExchangeRates => Set<ExchangeRate>();
+    public DbSet<FinancialPeriod> FinancialPeriods => Set<FinancialPeriod>();
     public DbSet<Company> Companies => Set<Company>();
     public DbSet<Branch> Branches => Set<Branch>();
 

@@ -1,6 +1,7 @@
-﻿using TemplateAPI.Application.Common.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using TemplateAPI.Application.Common.Exceptions;
+using TemplateAPI.Application.Common.Models;
+using NotFoundException = TemplateAPI.Application.Common.Exceptions.NotFoundException;
 
 namespace TemplateAPI.Web.Infrastructure;
 
@@ -11,7 +12,7 @@ public class CustomExceptionHandler : IExceptionHandler
     public CustomExceptionHandler()
     {
         // Register known exception types and handlers.
-        _exceptionHandlers = new()
+        _exceptionHandlers = new Dictionary<Type, Func<HttpContext, Exception, Task>>
         {
             { typeof(ValidationException), HandleValidationException },
             { typeof(NotFoundException), HandleNotFoundException },
@@ -20,22 +21,11 @@ public class CustomExceptionHandler : IExceptionHandler
             { typeof(BadResponseException), HandleBadResponseException }
         };
     }
-    
-    private async Task HandleBadResponseException(HttpContext httpContext, Exception ex)
-    {
-        BadResponseException exception = (BadResponseException)ex;
-        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status400BadRequest, Title = "BadResponseException", Detail = exception.Message
-        });
-    }
 
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception,
         CancellationToken cancellationToken)
     {
-        var exceptionType = exception.GetType();
+        Type exceptionType = exception.GetType();
 
         if (_exceptionHandlers.ContainsKey(exceptionType))
         {
@@ -46,55 +36,70 @@ public class CustomExceptionHandler : IExceptionHandler
         return false;
     }
 
-    private async Task HandleValidationException(HttpContext httpContext, Exception ex)
+    private async Task HandleBadResponseException(HttpContext httpContext, Exception ex)
     {
-        var exception = (ValidationException)ex;
-
+        BadResponseException exception = (BadResponseException)ex;
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-        await httpContext.Response.WriteAsJsonAsync(new ValidationProblemDetails(exception.Errors)
-        {
-            Status = StatusCodes.Status400BadRequest,
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
-        });
+        OperationResult result = OperationResult.FailureResult(
+            exception.Message,
+            new List<string> { "Bad Request" }
+        );
+
+        await httpContext.Response.WriteAsJsonAsync(result);
+    }
+
+    private async Task HandleValidationException(HttpContext httpContext, Exception ex)
+    {
+        ValidationException exception = (ValidationException)ex;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+
+        List<string> errors = exception.Errors
+            .SelectMany(e => e.Value)
+            .ToList();
+
+        OperationResult result = OperationResult.FailureResult(
+            "One or more validation errors occurred.",
+            errors
+        );
+
+        await httpContext.Response.WriteAsJsonAsync(result);
     }
 
     private async Task HandleNotFoundException(HttpContext httpContext, Exception ex)
     {
-        var exception = (NotFoundException)ex;
-
+        NotFoundException exception = (NotFoundException)ex;
         httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails()
-        {
-            Status = StatusCodes.Status404NotFound,
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
-            Title = "The specified resource was not found.",
-            Detail = exception.Message
-        });
+        OperationResult result = OperationResult.FailureResult(
+            exception.Message,
+            new List<string> { "Resource not found" }
+        );
+
+        await httpContext.Response.WriteAsJsonAsync(result);
     }
 
     private async Task HandleUnauthorizedAccessException(HttpContext httpContext, Exception ex)
     {
         httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status401Unauthorized,
-            Title = "Unauthorized",
-            Type = "https://tools.ietf.org/html/rfc7235#section-3.1"
-        });
+        OperationResult result = OperationResult.FailureResult(
+            "Unauthorized access.",
+            new List<string> { "You are not authorized to access this resource" }
+        );
+
+        await httpContext.Response.WriteAsJsonAsync(result);
     }
 
     private async Task HandleForbiddenAccessException(HttpContext httpContext, Exception ex)
     {
         httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
 
-        await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
-        {
-            Status = StatusCodes.Status403Forbidden,
-            Title = "Forbidden",
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3"
-        });
+        OperationResult result = OperationResult.FailureResult(
+            "Forbidden access.",
+            new List<string> { "You do not have permission to access this resource" }
+        );
+
+        await httpContext.Response.WriteAsJsonAsync(result);
     }
 }

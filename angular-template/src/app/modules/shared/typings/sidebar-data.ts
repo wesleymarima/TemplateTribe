@@ -21,6 +21,31 @@ export const AdminSideBarData: SideBarItem[] = [
     icon: 'store',
     path: RouterConstants.ADMIN_BRANCHES,
     name: 'Branches'
+  },
+  {
+    icon: 'attach_money',
+    path: RouterConstants.ADMIN_CURRENCIES,
+    name: 'Currencies'
+  },
+  {
+    icon: 'account_balance',
+    path: RouterConstants.ADMIN_COST_CENTERS,
+    name: 'Cost Centers'
+  },
+  {
+    icon: 'corporate_fare',
+    path: RouterConstants.ADMIN_DEPARTMENTS,
+    name: 'Departments'
+  },
+  {
+    icon: 'currency_exchange',
+    path: RouterConstants.ADMIN_EXCHANGE_RATES,
+    name: 'Exchange Rates'
+  },
+  {
+    icon: 'calendar_today',
+    path: RouterConstants.ADMIN_FINANCIAL_PERIODS,
+    name: 'Financial Periods'
   }
 ]
 

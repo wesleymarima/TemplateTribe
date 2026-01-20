@@ -1,0 +1,81 @@
+<div class="page-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Exchange Rate</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>From Currency</mat-label>
+              <mat-select formControlName="currencyId">
+                <mat-option *ngFor="let currency of currencies" [value]="currency.id">
+                  {{ currency.code }} - {{ currency.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="f.currencyId.hasError('required')">Currency is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>To Currency Code</mat-label>
+              <input matInput formControlName="toCurrencyCode" placeholder="USD">
+              <mat-error *ngIf="f.toCurrencyCode.hasError('required')">To currency code is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Exchange Rate</mat-label>
+              <input matInput type="number" step="0.0001" formControlName="rate" placeholder="1.25">
+              <mat-error *ngIf="f.rate.hasError('required')">Rate is required</mat-error>
+              <mat-error *ngIf="f.rate.hasError('min')">Rate must be greater than 0</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Company</mat-label>
+              <mat-select formControlName="companyId">
+                <mat-option *ngFor="let company of companies" [value]="company.id">
+                  {{ company.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="f.companyId.hasError('required')">Company is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Effective Date</mat-label>
+              <input matInput type="datetime-local" formControlName="effectiveDate">
+              <mat-error *ngIf="f.effectiveDate.hasError('required')">Effective date is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>End Date (Optional)</mat-label>
+              <input matInput type="datetime-local" formControlName="endDate">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+          <button mat-raised-button color="primary" type="submit">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+          <button mat-raised-button type="button" (click)="cancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+

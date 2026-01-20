@@ -12,6 +12,11 @@ public interface IApplicationDbContext
     DbSet<RefreshToken> RefreshTokens { get; }
     DbSet<Company> Companies { get; }
     DbSet<Branch> Branches { get; }
+    DbSet<Currency> Currencies { get; }
+    DbSet<Department> Departments { get; }
+    DbSet<CostCenter> CostCenters { get; }
+    DbSet<ExchangeRate> ExchangeRates { get; }
+    DbSet<FinancialPeriod> FinancialPeriods { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

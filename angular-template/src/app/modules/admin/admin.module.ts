@@ -2,19 +2,33 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AdminHomeComponent} from './admin-home/admin-home.component';
 import {RouterModule} from '@angular/router';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../shared/material/material.module';
 import {SharedModule} from '../shared/shared.module';
 import {AdminRoutes} from './admin.routing';
 import {AdminPersonsHomeComponent} from './admin-persons-home/admin-persons-home.component';
-import { AdminPersonViewComponent } from './admin-person-view/admin-person-view.component';
-import { AdminPersonCreateComponent } from './admin-person-create/admin-person-create.component';
-import { AdminCompaniesHomeComponent } from './admin-companies-home/admin-companies-home.component';
-import { AdminCompanyCreateComponent } from './admin-company-create/admin-company-create.component';
-import { AdminCompanyViewComponent } from './admin-company-view/admin-company-view.component';
-import { AdminBranchesHomeComponent } from './admin-branches-home/admin-branches-home.component';
-import { AdminBranchCreateComponent } from './admin-branch-create/admin-branch-create.component';
-import { AdminBranchViewComponent } from './admin-branch-view/admin-branch-view.component';
+import {AdminPersonViewComponent} from './admin-person-view/admin-person-view.component';
+import {AdminPersonCreateComponent} from './admin-person-create/admin-person-create.component';
+import {AdminCompaniesHomeComponent} from './admin-companies-home/admin-companies-home.component';
+import {AdminCompanyCreateComponent} from './admin-company-create/admin-company-create.component';
+import {AdminCompanyViewComponent} from './admin-company-view/admin-company-view.component';
+import {AdminBranchesHomeComponent} from './admin-branches-home/admin-branches-home.component';
+import {AdminBranchCreateComponent} from './admin-branch-create/admin-branch-create.component';
+import {AdminBranchViewComponent} from './admin-branch-view/admin-branch-view.component';
+import {AdminCurrenciesHomeComponent} from './admin-currencies-home/admin-currencies-home.component';
+import {AdminCurrencyCreateComponent} from './admin-currency-create/admin-currency-create.component';
+import {AdminCostCentersHomeComponent} from './admin-cost-centers-home/admin-cost-centers-home.component';
+import {AdminCostCenterCreateComponent} from './admin-cost-center-create/admin-cost-center-create.component';
+import {AdminDepartmentsHomeComponent} from './admin-departments-home/admin-departments-home.component';
+import {AdminDepartmentCreateComponent} from './admin-department-create/admin-department-create.component';
+import {AdminExchangeRatesHomeComponent} from './admin-exchange-rates-home/admin-exchange-rates-home.component';
+import {AdminExchangeRateCreateComponent} from './admin-exchange-rate-create/admin-exchange-rate-create.component';
+import {
+  AdminFinancialPeriodsHomeComponent
+} from './admin-financial-periods-home/admin-financial-periods-home.component';
+import {
+  AdminFinancialPeriodCreateComponent
+} from './admin-financial-period-create/admin-financial-period-create.component';
 
 
 @NgModule({
@@ -28,11 +42,22 @@ import { AdminBranchViewComponent } from './admin-branch-view/admin-branch-view.
     AdminCompanyViewComponent,
     AdminBranchesHomeComponent,
     AdminBranchCreateComponent,
-    AdminBranchViewComponent
+    AdminBranchViewComponent,
+    AdminCurrenciesHomeComponent,
+    AdminCurrencyCreateComponent,
+    AdminCostCentersHomeComponent,
+    AdminCostCenterCreateComponent,
+    AdminDepartmentsHomeComponent,
+    AdminDepartmentCreateComponent,
+    AdminExchangeRatesHomeComponent,
+    AdminExchangeRateCreateComponent,
+    AdminFinancialPeriodsHomeComponent,
+    AdminFinancialPeriodCreateComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     SharedModule,

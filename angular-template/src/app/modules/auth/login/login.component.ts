@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../shared/services/auth.service';
 import {AuthRestService} from '../../shared/services/rest/auth.rest.service';
 import {Token} from '../../shared/models/token';
+import {AuthenticationRequest} from '../../shared/models/common';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,12 @@ export class LoginComponent {
   }
 
   submit() {
-    this.authRestService.login(this.form.value).subscribe(response => {
+    const loginRequest: AuthenticationRequest = {
+      email: this.form.value.email || '',
+      password: this.form.value.password || ''
+    };
+
+    this.authRestService.login(loginRequest).subscribe(response => {
       const token: Token = response;
       this.authService.saveToken(token);
       this.authService.navigateAccount();

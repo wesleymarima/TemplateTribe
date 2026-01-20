@@ -48,9 +48,14 @@ public class CreateBranchCommandHandler
             AddressLine1 = request.AddressLine1,
             AddressLine2 = request.AddressLine2,
             City = request.City,
+            State = request.State,
+            PostalCode = request.PostalCode,
+            Country = request.Country,
             BranchType = request.BranchType,
             IsHeadquarters = request.IsHeadquarters,
+            BusinessHours = request.BusinessHours,
             CompanyId = request.CompanyId,
+            ManagerId = request.ManagerId,
             IsActive = true
         };
 
@@ -81,6 +86,22 @@ public class CreateBranchCommandHandler
             RuleFor(v => v.CompanyId)
                 .GreaterThan(0).WithMessage("Valid company ID is required.")
                 .MustAsync(CompanyExists).WithMessage("The specified company does not exist.");
+
+            RuleFor(v => v.City)
+                .NotEmpty().WithMessage("City is required.")
+                .MaximumLength(100).WithMessage("City must not exceed 100 characters.");
+
+            RuleFor(v => v.Country)
+                .NotEmpty().WithMessage("Country is required.")
+                .MaximumLength(100).WithMessage("Country must not exceed 100 characters.");
+
+            RuleFor(v => v.State)
+                .NotEmpty().WithMessage("State is required.")
+                .MaximumLength(100).WithMessage("State must not exceed 100 characters.");
+
+            RuleFor(v => v.PostalCode)
+                .NotEmpty().WithMessage("Postal code is required.")
+                .MaximumLength(20).WithMessage("Postal code must not exceed 20 characters.");
 
             RuleFor(v => v.Email)
                 .EmailAddress()

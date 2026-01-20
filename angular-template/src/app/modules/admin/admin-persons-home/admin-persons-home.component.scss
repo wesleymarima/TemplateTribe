@@ -5,6 +5,18 @@
   min-height: 100vh;
 }
 
+.mb-3 {
+  position: relative;
+  z-index: 10;
+  margin-bottom: 1rem;
+}
+
+button {
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+}
+
 .title-container {
   text-align: center;
   margin-bottom: 20px;

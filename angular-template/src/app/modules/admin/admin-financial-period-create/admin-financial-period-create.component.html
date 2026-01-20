@@ -1,0 +1,78 @@
+<div class="page-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Financial Period</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Period Name</mat-label>
+              <input matInput formControlName="name" placeholder="January 2026">
+              <mat-error *ngIf="f.name.hasError('required')">Name is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Company</mat-label>
+              <mat-select formControlName="companyId">
+                <mat-option *ngFor="let company of companies" [value]="company.id">
+                  {{ company.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="f.companyId.hasError('required')">Company is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Fiscal Year</mat-label>
+              <input matInput type="number" formControlName="fiscalYear" placeholder="2026">
+              <mat-error *ngIf="f.fiscalYear.hasError('required')">Fiscal year is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Period Number</mat-label>
+              <input matInput type="number" formControlName="periodNumber" placeholder="1" min="1">
+              <mat-error *ngIf="f.periodNumber.hasError('required')">Period number is required</mat-error>
+              <mat-error *ngIf="f.periodNumber.hasError('min')">Period number must be at least 1</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Start Date</mat-label>
+              <input matInput type="datetime-local" formControlName="startDate">
+              <mat-error *ngIf="f.startDate.hasError('required')">Start date is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>End Date</mat-label>
+              <input matInput type="datetime-local" formControlName="endDate">
+              <mat-error *ngIf="f.endDate.hasError('required')">End date is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+          <button mat-raised-button color="primary" type="submit">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+          <button mat-raised-button type="button" (click)="cancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+

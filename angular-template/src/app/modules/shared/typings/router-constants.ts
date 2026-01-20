@@ -15,4 +15,19 @@ export class RouterConstants {
   static ADMIN_BRANCHES = '/admin/branches';
   static ADMIN_BRANCH_VIEW = '/admin/branch-view/';
   static ADMIN_BRANCH_CREATE = '/admin/branch-create/';
+
+  static ADMIN_CURRENCIES = '/admin/currencies';
+  static ADMIN_CURRENCY_CREATE = '/admin/currency-create/';
+
+  static ADMIN_COST_CENTERS = '/admin/cost-centers';
+  static ADMIN_COST_CENTER_CREATE = '/admin/cost-center-create/';
+
+  static ADMIN_DEPARTMENTS = '/admin/departments';
+  static ADMIN_DEPARTMENT_CREATE = '/admin/department-create/';
+
+  static ADMIN_EXCHANGE_RATES = '/admin/exchange-rates';
+  static ADMIN_EXCHANGE_RATE_CREATE = '/admin/exchange-rate-create/';
+
+  static ADMIN_FINANCIAL_PERIODS = '/admin/financial-periods';
+  static ADMIN_FINANCIAL_PERIOD_CREATE = '/admin/financial-period-create/';
 }

@@ -22,6 +22,10 @@ export class BranchRestService {
     return this.http.get<BranchDetailDTO>(this.baseURL + id);
   }
 
+  getCurrent(): Observable<BranchDetailDTO> {
+    return this.http.get<BranchDetailDTO>(this.baseURL + 'current');
+  }
+
   getByCompany(companyId: number): Observable<BranchDTO[]> {
     return this.http.get<BranchDTO[]>(this.baseURL + 'company/' + companyId);
   }
