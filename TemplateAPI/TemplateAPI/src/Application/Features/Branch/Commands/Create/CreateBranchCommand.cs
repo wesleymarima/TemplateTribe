@@ -12,10 +12,10 @@ public class CreateBranchCommand : IRequest<int>
     public string Description { get; set; } = string.Empty;
 
     public string AddressLine1 { get; set; } = string.Empty;
-    public string AddressLine2 { get; set; } = string.Empty;
+    public string? AddressLine2 { get; set; }
     public string City { get; set; } = string.Empty;
-    public string State { get; set; } = string.Empty;
-    public string PostalCode { get; set; } = string.Empty;
+    public string? State { get; set; }
+    public string? PostalCode { get; set; }
     public string Country { get; set; } = string.Empty;
 
     public string BranchType { get; set; } = "Office";
@@ -23,7 +23,7 @@ public class CreateBranchCommand : IRequest<int>
     public string BusinessHours { get; set; } = string.Empty;
 
     public int CompanyId { get; set; }
-    public int ManagerId { get; set; }
+    public int? ManagerId { get; set; }
 }
 
 public class CreateBranchCommandHandler
@@ -46,10 +46,10 @@ public class CreateBranchCommandHandler
             Phone = request.Phone,
             Description = request.Description,
             AddressLine1 = request.AddressLine1,
-            AddressLine2 = request.AddressLine2,
+            AddressLine2 = request.AddressLine2 ?? string.Empty,
             City = request.City,
-            State = request.State,
-            PostalCode = request.PostalCode,
+            State = request.State ?? string.Empty,
+            PostalCode = request.PostalCode ?? string.Empty,
             Country = request.Country,
             BranchType = request.BranchType,
             IsHeadquarters = request.IsHeadquarters,
@@ -96,12 +96,12 @@ public class CreateBranchCommandHandler
                 .MaximumLength(100).WithMessage("Country must not exceed 100 characters.");
 
             RuleFor(v => v.State)
-                .NotEmpty().WithMessage("State is required.")
-                .MaximumLength(100).WithMessage("State must not exceed 100 characters.");
+                .MaximumLength(100).WithMessage("State must not exceed 100 characters.")
+                .When(v => !string.IsNullOrEmpty(v.State));
 
             RuleFor(v => v.PostalCode)
-                .NotEmpty().WithMessage("Postal code is required.")
-                .MaximumLength(20).WithMessage("Postal code must not exceed 20 characters.");
+                .MaximumLength(20).WithMessage("Postal code must not exceed 20 characters.")
+                .When(v => !string.IsNullOrEmpty(v.PostalCode));
 
             RuleFor(v => v.Email)
                 .EmailAddress()

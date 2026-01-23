@@ -1,0 +1,86 @@
+<div class="page-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Account Type</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Code</mat-label>
+              <input matInput formControlName="code" placeholder="Enter account type code">
+              <mat-error *ngIf="form.get('code')?.hasError('required')">Code is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter account type name">
+              <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3" placeholder="Enter description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Account Sub-Category</mat-label>
+              <mat-select formControlName="accountSubCategoryId">
+                <mat-option *ngFor="let subCategory of subCategories" [value]="subCategory.id">
+                  {{ subCategory.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('accountSubCategoryId')?.hasError('required')">Account sub-category is
+                required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Normal Balance</mat-label>
+              <mat-select formControlName="normalBalance">
+                <mat-option *ngFor="let balance of normalBalances" [value]="balance.value">
+                  {{ balance.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('normalBalance')?.hasError('required')">Normal Balance is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Display Order</mat-label>
+              <input matInput type="number" formControlName="displayOrder" placeholder="Enter display order">
+              <mat-error *ngIf="form.get('displayOrder')?.hasError('required')">Display order is required</mat-error>
+              <mat-error *ngIf="form.get('displayOrder')?.hasError('min')">Display order must be 0 or greater
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-3">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+          <button mat-raised-button type="button" (click)="cancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

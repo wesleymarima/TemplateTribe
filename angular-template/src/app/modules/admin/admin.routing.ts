@@ -24,6 +24,24 @@ import {
 import {
   AdminFinancialPeriodCreateComponent
 } from './admin-financial-period-create/admin-financial-period-create.component';
+import {AdminChartOfAccountsHomeComponent} from './admin-chart-of-accounts-home/admin-chart-of-accounts-home.component';
+import {
+  AdminAccountCategoriesHomeComponent
+} from './admin-account-categories-home/admin-account-categories-home.component';
+import {
+  AdminAccountCategoryCreateComponent
+} from './admin-account-category-create/admin-account-category-create.component';
+import {AdminAccountsHomeComponent} from './admin-accounts-home/admin-accounts-home.component';
+import {AdminAccountCreateComponent} from './admin-account-create/admin-account-create.component';
+import {AdminAccountViewComponent} from './admin-account-view/admin-account-view.component';
+import {
+  AdminAccountSubcategoriesHomeComponent
+} from './admin-account-subcategories-home/admin-account-subcategories-home.component';
+import {
+  AdminAccountSubcategoryCreateComponent
+} from './admin-account-subcategory-create/admin-account-subcategory-create.component';
+import {AdminAccountTypesHomeComponent} from './admin-account-types-home/admin-account-types-home.component';
+import {AdminAccountTypeCreateComponent} from './admin-account-type-create/admin-account-type-create.component';
 
 export const AdminRoutes: Routes = [
   {
@@ -47,7 +65,17 @@ export const AdminRoutes: Routes = [
       {path: 'exchange-rates', component: AdminExchangeRatesHomeComponent},
       {path: 'exchange-rate-create', component: AdminExchangeRateCreateComponent},
       {path: 'financial-periods', component: AdminFinancialPeriodsHomeComponent},
-      {path: 'financial-period-create', component: AdminFinancialPeriodCreateComponent}
+      {path: 'financial-period-create', component: AdminFinancialPeriodCreateComponent},
+      {path: 'chart-of-accounts', component: AdminChartOfAccountsHomeComponent},
+      {path: 'account-categories', component: AdminAccountCategoriesHomeComponent},
+      {path: 'account-category-create', component: AdminAccountCategoryCreateComponent},
+      {path: 'account-subcategories', component: AdminAccountSubcategoriesHomeComponent},
+      {path: 'account-subcategory-create', component: AdminAccountSubcategoryCreateComponent},
+      {path: 'account-types', component: AdminAccountTypesHomeComponent},
+      {path: 'account-type-create', component: AdminAccountTypeCreateComponent},
+      {path: 'accounts', component: AdminAccountsHomeComponent},
+      {path: 'account-create', component: AdminAccountCreateComponent},
+      {path: 'account-view/:id', component: AdminAccountViewComponent}
     ]
   }
 ]

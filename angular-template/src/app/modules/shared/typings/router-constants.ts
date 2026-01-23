@@ -30,4 +30,15 @@ export class RouterConstants {
 
   static ADMIN_FINANCIAL_PERIODS = '/admin/financial-periods';
   static ADMIN_FINANCIAL_PERIOD_CREATE = '/admin/financial-period-create/';
+
+  static ADMIN_CHART_OF_ACCOUNTS = '/admin/chart-of-accounts';
+  static ADMIN_ACCOUNT_CATEGORIES = '/admin/account-categories';
+  static ADMIN_ACCOUNT_CATEGORY_CREATE = '/admin/account-category-create/';
+  static ADMIN_ACCOUNT_SUBCATEGORIES = '/admin/account-subcategories';
+  static ADMIN_ACCOUNT_SUBCATEGORY_CREATE = '/admin/account-subcategory-create/';
+  static ADMIN_ACCOUNT_TYPES = '/admin/account-types';
+  static ADMIN_ACCOUNT_TYPE_CREATE = '/admin/account-type-create/';
+  static ADMIN_ACCOUNTS = '/admin/accounts';
+  static ADMIN_ACCOUNT_CREATE = '/admin/account-create/';
+  static ADMIN_ACCOUNT_VIEW = '/admin/account-view/';
 }

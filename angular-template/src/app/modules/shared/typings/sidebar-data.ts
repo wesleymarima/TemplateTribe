@@ -46,6 +46,11 @@ export const AdminSideBarData: SideBarItem[] = [
     icon: 'calendar_today',
     path: RouterConstants.ADMIN_FINANCIAL_PERIODS,
     name: 'Financial Periods'
+  },
+  {
+    icon: 'account_tree',
+    path: RouterConstants.ADMIN_CHART_OF_ACCOUNTS,
+    name: 'Chart of Accounts'
   }
 ]
 

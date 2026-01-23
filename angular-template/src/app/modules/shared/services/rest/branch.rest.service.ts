@@ -31,6 +31,8 @@ export class BranchRestService {
   }
 
   create(command: CreateBranchCommand): Observable<number> {
+    console.log(command);
+    
     return this.http.post<number>(this.baseURL, command);
   }
 

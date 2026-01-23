@@ -1,66 +1,75 @@
-<div class="form-container" *ngIf="branch">
-  <div class="row justify-content-center">
-    <div class="col-lg-10 col-md-12">
+<div class="branch-view-container" *ngIf="branch">
+  <!-- Header Section -->
+  <div class="branch-header">
+    <div class="header-content">
+      <div class="branch-info">
+        <div class="branch-icon-wrapper">
+          <mat-icon class="branch-icon">store</mat-icon>
+        </div>
+        <div class="branch-title-section">
+          <h1 class="branch-name">{{ branch.name }}</h1>
+          <p class="branch-code">Code: {{ branch.code }}</p>
+          <div class="badge-group">
+            <span [class]="branch.isActive ? 'status-badge active' : 'status-badge inactive'">
+              <mat-icon>{{ branch.isActive ? 'check_circle' : 'cancel' }}</mat-icon>
+              {{ branch.isActive ? 'Active' : 'Inactive' }}
+            </span>
+            <span *ngIf="branch.isHeadquarters" class="status-badge headquarters">
+              <mat-icon>apartment</mat-icon>
+              Headquarters
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="action-buttons">
-        <button mat-raised-button color="primary" (click)="toggleEdit()">
-          <mat-icon>{{ isEditing ? 'cancel' : 'edit' }}</mat-icon>
+        <button mat-fab extended color="primary" (click)="toggleEdit()" class="action-btn">
+          <mat-icon>{{ isEditing ? 'close' : 'edit' }}</mat-icon>
           {{ isEditing ? 'Cancel' : 'Edit' }}
         </button>
-        <button mat-raised-button color="warn" (click)="deleteBranch()" *ngIf="!isEditing">
+        <button mat-fab extended color="warn" (click)="deleteBranch()" *ngIf="!isEditing" class="action-btn">
           <mat-icon>delete</mat-icon>
           Delete
         </button>
-        <button mat-stroked-button routerLink="{{RouterConstants.ADMIN_BRANCHES}}">
+        <button mat-stroked-button routerLink="{{RouterConstants.ADMIN_BRANCHES}}" class="back-btn">
           <mat-icon>arrow_back</mat-icon>
-          Back to List
+          Back
         </button>
       </div>
+    </div>
+  </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <mat-card class="form-card">
-            <mat-card-header class="form-header" *ngIf="isEditing">
-              <mat-card-title>
-                <mat-icon class="header-icon">edit</mat-icon>
-                Edit Branch
-              </mat-card-title>
-              <mat-card-subtitle>Update branch information</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-header class="form-header" *ngIf="!isEditing">
-              <mat-card-title>
-                <mat-icon class="header-icon">store</mat-icon>
-                {{ branch.name }}
-              </mat-card-title>
-              <mat-card-subtitle>Branch Details</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content class="form-content">
-          <form [formGroup]="branchForm" (ngSubmit)="onSubmit()" *ngIf="isEditing">
+  <!-- Edit Form -->
+  <div class="edit-section" *ngIf="isEditing">
+    <mat-card class="edit-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>edit_note</mat-icon>
+          Edit Branch Information
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
+          <!-- Basic Information -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <mat-icon>info</mat-icon>
+              Basic Information
+            </h3>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Branch Name</mat-label>
+                  <mat-icon matPrefix>store</mat-icon>
                   <input type="text" formControlName="name" matInput required/>
+                  <mat-error>Branch name is required</mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Branch Code</mat-label>
+                  <mat-icon matPrefix>tag</mat-icon>
                   <input type="text" formControlName="code" matInput required/>
-                </mat-form-field>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Email</mat-label>
-                  <input type="email" formControlName="email" matInput/>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6 mb-3">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Phone</mat-label>
-                  <input type="text" formControlName="phone" matInput/>
+                  <mat-error>Branch code is required</mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -69,14 +78,20 @@
               <div class="col-md-6 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Branch Type</mat-label>
+                  <mat-icon matPrefix>category</mat-icon>
                   <input type="text" formControlName="branchType" matInput required/>
+                  <mat-error>Branch type is required</mat-error>
                 </mat-form-field>
               </div>
-              <div class="col-md-3 mb-3">
-                <mat-slide-toggle formControlName="isHeadquarters">Is Headquarters</mat-slide-toggle>
-              </div>
-              <div class="col-md-3 mb-3">
-                <mat-slide-toggle formControlName="isActive">Active</mat-slide-toggle>
+              <div class="col-md-6 mb-3 toggle-group">
+                <mat-slide-toggle formControlName="isHeadquarters" color="primary">
+                  <mat-icon>apartment</mat-icon>
+                  Is Headquarters
+                </mat-slide-toggle>
+                <mat-slide-toggle formControlName="isActive" color="accent">
+                  <mat-icon>toggle_on</mat-icon>
+                  Active
+                </mat-slide-toggle>
               </div>
             </div>
 
@@ -84,15 +99,49 @@
               <div class="col-md-12 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Description</mat-label>
+                  <mat-icon matPrefix>description</mat-icon>
                   <textarea formControlName="description" matInput rows="3"></textarea>
                 </mat-form-field>
               </div>
             </div>
+          </div>
 
+          <!-- Contact Information -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <mat-icon>contact_mail</mat-icon>
+              Contact Information
+            </h3>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Email</mat-label>
+                  <mat-icon matPrefix>email</mat-icon>
+                  <input type="email" formControlName="email" matInput/>
+                  <mat-error>Please enter a valid email</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6 mb-3">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Phone</mat-label>
+                  <mat-icon matPrefix>phone</mat-icon>
+                  <input type="text" formControlName="phone" matInput/>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <!-- Address Information -->
+          <div class="form-section">
+            <h3 class="section-title">
+              <mat-icon>location_on</mat-icon>
+              Address Information
+            </h3>
             <div class="row">
               <div class="col-md-12 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Address Line 1</mat-label>
+                  <mat-icon matPrefix>home</mat-icon>
                   <input type="text" formControlName="addressLine1" matInput/>
                 </mat-form-field>
               </div>
@@ -102,6 +151,7 @@
               <div class="col-md-12 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Address Line 2</mat-label>
+                  <mat-icon matPrefix>home</mat-icon>
                   <input type="text" formControlName="addressLine2" matInput/>
                 </mat-form-field>
               </div>
@@ -111,18 +161,21 @@
               <div class="col-md-4 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>City</mat-label>
+                  <mat-icon matPrefix>location_city</mat-icon>
                   <input type="text" formControlName="city" matInput/>
                 </mat-form-field>
               </div>
               <div class="col-md-4 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>State</mat-label>
+                  <mat-icon matPrefix>map</mat-icon>
                   <input type="text" formControlName="state" matInput/>
                 </mat-form-field>
               </div>
               <div class="col-md-4 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Postal Code</mat-label>
+                  <mat-icon matPrefix>markunread_mailbox</mat-icon>
                   <input type="text" formControlName="postalCode" matInput/>
                 </mat-form-field>
               </div>
@@ -132,84 +185,166 @@
               <div class="col-md-6 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Country</mat-label>
+                  <mat-icon matPrefix>public</mat-icon>
                   <input type="text" formControlName="country" matInput/>
                 </mat-form-field>
               </div>
               <div class="col-md-6 mb-3">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Business Hours</mat-label>
-                  <input type="text" formControlName="businessHours" matInput/>
+                  <mat-icon matPrefix>schedule</mat-icon>
+                  <input type="text" formControlName="businessHours" matInput placeholder="e.g., Mon-Fri 9AM-5PM"/>
                 </mat-form-field>
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-md-12">
-                <button type="submit" mat-raised-button color="primary" [disabled]="!branchForm.valid">
-                  Update Branch
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <div *ngIf="!isEditing">
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Code:</strong></div>
-              <div class="col-md-6">{{ branch.code }}</div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Company:</strong></div>
-              <div class="col-md-6">
-                <a routerLink="{{RouterConstants.ADMIN_COMPANY_VIEW}}{{branch.companyId}}">{{ branch.companyName }}</a>
-              </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Email:</strong></div>
-              <div class="col-md-6">{{ branch.email || 'N/A' }}</div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Phone:</strong></div>
-              <div class="col-md-6">{{ branch.phone || 'N/A' }}</div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Branch Type:</strong></div>
-              <div class="col-md-6">{{ branch.branchType }}</div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Description:</strong></div>
-              <div class="col-md-6">{{ branch.description || 'N/A' }}</div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Address:</strong></div>
-              <div class="col-md-6">
-                {{ branch.addressLine1 }}<br *ngIf="branch.addressLine1"/>
-                {{ branch.addressLine2 }}<br *ngIf="branch.addressLine2"/>
-                {{ branch.city }}
-              </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Is Headquarters:</strong></div>
-              <div class="col-md-6">
-                <span [class]="branch.isHeadquarters ? 'badge bg-primary' : 'badge bg-secondary'">
-                  {{ branch.isHeadquarters ? 'Yes' : 'No' }}
-                </span>
-              </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Status:</strong></div>
-              <div class="col-md-6">
-                <span [class]="branch.isActive ? 'badge bg-success' : 'badge bg-danger'">
-                  {{ branch.isActive ? 'Active' : 'Inactive' }}
-                </span>
-              </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-md-6"><strong>Persons Count:</strong></div>
-              <div class="col-md-6">{{ branch.personsCount }}</div>
-            </div>
           </div>
-        </mat-card-content>
-      </mat-card>
+
+          <div class="form-actions">
+            <button type="submit" mat-raised-button color="primary" [disabled]="!branchForm.valid" class="submit-btn">
+              <mat-icon>save</mat-icon>
+              Update Branch
+            </button>
+            <button type="button" mat-stroked-button (click)="toggleEdit()">
+              <mat-icon>close</mat-icon>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- View Mode - Information Cards -->
+  <div class="view-section" *ngIf="!isEditing">
+    <div class="row">
+      <!-- Basic Info Card -->
+      <div class="col-md-6 mb-4">
+        <mat-card class="info-card">
+          <mat-card-header>
+            <div class="card-icon-wrapper primary-bg">
+              <mat-icon>info</mat-icon>
+            </div>
+            <mat-card-title>Basic Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>business</mat-icon>
+                <span>Company</span>
+              </div>
+              <div class="info-value">
+                <a routerLink="{{RouterConstants.ADMIN_COMPANY_VIEW}}{{branch.companyId}}" class="company-link">
+                  {{ branch.companyName }}
+                  <mat-icon>open_in_new</mat-icon>
+                </a>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>category</mat-icon>
+                <span>Branch Type</span>
+              </div>
+              <div class="info-value">{{ branch.branchType }}</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>description</mat-icon>
+                <span>Description</span>
+              </div>
+              <div class="info-value">{{ branch.description || 'No description provided' }}</div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>people</mat-icon>
+                <span>Team Members</span>
+              </div>
+              <div class="info-value">
+                <span class="count-badge">{{ branch.personsCount }}</span>
+                {{ branch.personsCount === 1 ? 'person' : 'people' }}
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Contact Info Card -->
+      <div class="col-md-6 mb-4">
+        <mat-card class="info-card">
+          <mat-card-header>
+            <div class="card-icon-wrapper accent-bg">
+              <mat-icon>contact_mail</mat-icon>
+            </div>
+            <mat-card-title>Contact Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>email</mat-icon>
+                <span>Email</span>
+              </div>
+              <div class="info-value">
+                <a *ngIf="branch.email" href="mailto:{{branch.email}}" class="contact-link">
+                  {{ branch.email }}
+                </a>
+                <span *ngIf="!branch.email" class="no-data">Not provided</span>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>phone</mat-icon>
+                <span>Phone</span>
+              </div>
+              <div class="info-value">
+                <a *ngIf="branch.phone" href="tel:{{branch.phone}}" class="contact-link">
+                  {{ branch.phone }}
+                </a>
+                <span *ngIf="!branch.phone" class="no-data">Not provided</span>
+              </div>
+            </div>
+            <div class="info-row">
+              <div class="info-label">
+                <mat-icon>schedule</mat-icon>
+                <span>Business Hours</span>
+              </div>
+              <div class="info-value">{{ branch.businessHours || 'Not specified' }}</div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Address Card -->
+      <div class="col-md-12 mb-4">
+        <mat-card class="info-card address-card">
+          <mat-card-header>
+            <div class="card-icon-wrapper success-bg">
+              <mat-icon>location_on</mat-icon>
+            </div>
+            <mat-card-title>Address</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="address-display">
+              <mat-icon class="address-icon">place</mat-icon>
+              <div class="address-text">
+                <div *ngIf="branch.addressLine1">{{ branch.addressLine1 }}</div>
+                <div *ngIf="branch.addressLine2">{{ branch.addressLine2 }}</div>
+                <div class="address-city-line">
+                  <span *ngIf="branch.city">{{ branch.city }}</span>
+                  <span *ngIf="branch.state && branch.city">, </span>
+                  <span *ngIf="branch.state">{{ branch.state }}</span>
+                  <span *ngIf="branch.postalCode"> {{ branch.postalCode }}</span>
+                </div>
+                <div *ngIf="branch.country" class="address-country">
+                  <mat-icon>public</mat-icon>
+                  {{ branch.country }}
+                </div>
+                <div *ngIf="!branch.addressLine1 && !branch.city" class="no-data">
+                  No address information provided
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

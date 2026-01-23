@@ -1,0 +1,19 @@
+<div class="page-container">
+  <div class="row">
+    <div class="col-md-6 mb-3" *ngFor="let item of menuItems">
+      <mat-card class="menu-card" [routerLink]="item.route" style="cursor: pointer;">
+        <mat-card-header>
+          <div class="icon-container" [ngClass]="item.color + '-bg'">
+            <mat-icon [color]="item.color" class="menu-icon">{{ item.icon }}</mat-icon>
+          </div>
+          <div class="title-container">
+            <mat-card-title>{{ item.title }}</mat-card-title>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ item.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

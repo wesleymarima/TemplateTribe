@@ -1,0 +1,136 @@
+<div class="page-container" *ngIf="account">
+  <div class="mb-3">
+    <button mat-raised-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Accounts
+    </button>
+  </div>
+
+  <mat-card class="mb-3">
+    <mat-card-header>
+      <mat-card-title>Account Details</mat-card-title>
+      <button mat-icon-button (click)="toggleEditMode()" matTooltip="Edit Account">
+        <mat-icon>{{ isEditMode ? 'cancel' : 'edit' }}</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="editForm" *ngIf="isEditMode">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Account Name</mat-label>
+              <input matInput formControlName="accountName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="description">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <mat-checkbox formControlName="isActive">Active</mat-checkbox>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox formControlName="allowDirectPosting">Allow Direct Posting</mat-checkbox>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox formControlName="requiresCostCenter">Requires Cost Center</mat-checkbox>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox formControlName="requiresDepartment">Requires Department</mat-checkbox>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-3">
+            <mat-checkbox formControlName="requiresBranch">Requires Branch</mat-checkbox>
+          </div>
+        </div>
+        <div class="d-flex gap-2 mt-3">
+          <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="!editForm.valid">
+            <mat-icon>save</mat-icon>
+            Save Changes
+          </button>
+          <button mat-raised-button (click)="toggleEditMode()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </form>
+
+      <div *ngIf="!isEditMode">
+        <div class="row">
+          <div class="col-md-6">
+            <p><strong>Account Code:</strong> {{ account.accountCode }}</p>
+            <p><strong>Account Name:</strong> {{ account.accountName }}</p>
+            <p><strong>Description:</strong> {{ account.description || 'N/A' }}</p>
+            <p><strong>Account Type:</strong> {{ account.accountTypeName }}</p>
+            <p><strong>Company:</strong> {{ account.companyName }}</p>
+            <p><strong>Level:</strong> {{ account.level }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Current Balance:</strong> {{ account.currentBalance | number:'1.2-2' }}</p>
+            <p><strong>Opening Balance:</strong> {{ account.openingBalance | number:'1.2-2' }}</p>
+            <p><strong>Parent Account:</strong> {{ account.parentAccountName || 'None' }}</p>
+            <p><strong>Status:</strong>
+              <span [class]="account.isActive ? 'badge bg-success' : 'badge bg-danger'">
+                {{ account.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </p>
+            <p><strong>Allow Direct Posting:</strong> {{ account.allowDirectPosting ? 'Yes' : 'No' }}</p>
+            <p><strong>System Account:</strong> {{ account.isSystemAccount ? 'Yes' : 'No' }}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="ledger">
+    <mat-card-header>
+      <mat-card-title>Account Ledger</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p><strong>Opening Balance:</strong> {{ ledger.openingBalance | number:'1.2-2' }}</p>
+      <p><strong>Closing Balance:</strong> {{ ledger.closingBalance | number:'1.2-2' }}</p>
+
+      <div class="table-container mat-elevation-z8 mt-3">
+        <table mat-table [dataSource]="ledger.transactions">
+          <ng-container matColumnDef="transactionDate">
+            <th mat-header-cell *matHeaderCellDef> Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.transactionDate | date:'short' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description</th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="referenceNumber">
+            <th mat-header-cell *matHeaderCellDef> Reference</th>
+            <td mat-cell *matCellDef="let element"> {{ element.referenceNumber }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="debitAmount">
+            <th mat-header-cell *matHeaderCellDef> Debit</th>
+            <td mat-cell *matCellDef="let element"> {{ element.debitAmount | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="creditAmount">
+            <th mat-header-cell *matHeaderCellDef> Credit</th>
+            <td mat-cell *matCellDef="let element"> {{ element.creditAmount | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="runningBalance">
+            <th mat-header-cell *matHeaderCellDef> Balance</th>
+            <td mat-cell *matCellDef="let element"> {{ element.runningBalance | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

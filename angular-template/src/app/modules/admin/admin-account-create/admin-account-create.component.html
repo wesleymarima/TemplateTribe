@@ -1,0 +1,132 @@
+<div class="page-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Account</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Account Code</mat-label>
+              <input matInput formControlName="accountCode" placeholder="Enter account code">
+              <mat-error *ngIf="form.get('accountCode')?.hasError('required')">Account code is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Account Name</mat-label>
+              <input matInput formControlName="accountName" placeholder="Enter account name">
+              <mat-error *ngIf="form.get('accountName')?.hasError('required')">Account name is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3" placeholder="Enter description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Company</mat-label>
+              <mat-select formControlName="companyId" (selectionChange)="onCompanyChange()">
+                <mat-option *ngFor="let company of companies" [value]="company.id">
+                  {{ company.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('companyId')?.hasError('required')">Company is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Account Type</mat-label>
+              <mat-select formControlName="accountTypeId">
+                <mat-option *ngFor="let type of accountTypes" [value]="type.id">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('accountTypeId')?.hasError('required')">Account type is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Parent Account (Optional)</mat-label>
+              <mat-select formControlName="parentAccountId">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option *ngFor="let account of parentAccounts" [value]="account.id">
+                  {{ account.accountCode }} - {{ account.accountName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Level</mat-label>
+              <input matInput type="number" formControlName="level" placeholder="Enter level">
+              <mat-error *ngIf="form.get('level')?.hasError('required')">Level is required</mat-error>
+              <mat-error *ngIf="form.get('level')?.hasError('min')">Level must be at least 1</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Opening Balance</mat-label>
+              <input matInput type="number" formControlName="openingBalance" placeholder="Enter opening balance">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Opening Balance Date (Optional)</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="openingBalanceDate">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Account Settings</h4>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3">
+            <mat-checkbox formControlName="allowDirectPosting">Allow Direct Posting</mat-checkbox>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox formControlName="requiresCostCenter">Requires Cost Center</mat-checkbox>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox formControlName="requiresDepartment">Requires Department</mat-checkbox>
+          </div>
+          <div class="col-md-3">
+            <mat-checkbox formControlName="requiresBranch">Requires Branch</mat-checkbox>
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+          <button mat-raised-button type="button" (click)="cancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

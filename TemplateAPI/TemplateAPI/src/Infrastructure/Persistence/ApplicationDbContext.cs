@@ -35,6 +35,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<Audit> Audit => Set<Audit>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
+    // Chart of Accounts
+    public DbSet<AccountCategory> AccountCategories => Set<AccountCategory>();
+    public DbSet<AccountSubCategory> AccountSubCategories => Set<AccountSubCategory>();
+    public DbSet<AccountType> AccountTypes => Set<AccountType>();
+    public DbSet<Account> Accounts => Set<Account>();
+    public DbSet<AccountBalance> AccountBalances => Set<AccountBalance>();
+    public DbSet<AccountTransaction> AccountTransactions => Set<AccountTransaction>();
+    public DbSet<JournalEntry> JournalEntries => Set<JournalEntry>();
+    public DbSet<JournalEntryLine> JournalEntryLines => Set<JournalEntryLine>();
+    public DbSet<JournalEntryAttachment> JournalEntryAttachments => Set<JournalEntryAttachment>();
+
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {

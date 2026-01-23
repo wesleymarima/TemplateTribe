@@ -18,5 +18,16 @@ public interface IApplicationDbContext
     DbSet<ExchangeRate> ExchangeRates { get; }
     DbSet<FinancialPeriod> FinancialPeriods { get; }
 
+    // Chart of Accounts
+    DbSet<AccountCategory> AccountCategories { get; }
+    DbSet<AccountSubCategory> AccountSubCategories { get; }
+    DbSet<AccountType> AccountTypes { get; }
+    DbSet<Account> Accounts { get; }
+    DbSet<AccountBalance> AccountBalances { get; }
+    DbSet<AccountTransaction> AccountTransactions { get; }
+    DbSet<JournalEntry> JournalEntries { get; }
+    DbSet<JournalEntryLine> JournalEntryLines { get; }
+    DbSet<JournalEntryAttachment> JournalEntryAttachments { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

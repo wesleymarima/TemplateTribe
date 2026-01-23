@@ -29,6 +29,16 @@ import {
 import {
   AdminFinancialPeriodCreateComponent
 } from './admin-financial-period-create/admin-financial-period-create.component';
+import { AdminChartOfAccountsHomeComponent } from './admin-chart-of-accounts-home/admin-chart-of-accounts-home.component';
+import { AdminAccountCategoriesHomeComponent } from './admin-account-categories-home/admin-account-categories-home.component';
+import { AdminAccountCategoryCreateComponent } from './admin-account-category-create/admin-account-category-create.component';
+import { AdminAccountsHomeComponent } from './admin-accounts-home/admin-accounts-home.component';
+import { AdminAccountCreateComponent } from './admin-account-create/admin-account-create.component';
+import { AdminAccountViewComponent } from './admin-account-view/admin-account-view.component';
+import { AdminAccountTypesHomeComponent } from './admin-account-types-home/admin-account-types-home.component';
+import { AdminAccountTypeCreateComponent } from './admin-account-type-create/admin-account-type-create.component';
+import { AdminAccountSubcategoriesHomeComponent } from './admin-account-subcategories-home/admin-account-subcategories-home.component';
+import { AdminAccountSubcategoryCreateComponent } from './admin-account-subcategory-create/admin-account-subcategory-create.component';
 
 
 @NgModule({
@@ -52,7 +62,17 @@ import {
     AdminExchangeRatesHomeComponent,
     AdminExchangeRateCreateComponent,
     AdminFinancialPeriodsHomeComponent,
-    AdminFinancialPeriodCreateComponent
+    AdminFinancialPeriodCreateComponent,
+    AdminChartOfAccountsHomeComponent,
+    AdminAccountCategoriesHomeComponent,
+    AdminAccountCategoryCreateComponent,
+    AdminAccountsHomeComponent,
+    AdminAccountCreateComponent,
+    AdminAccountViewComponent,
+    AdminAccountTypesHomeComponent,
+    AdminAccountTypeCreateComponent,
+    AdminAccountSubcategoriesHomeComponent,
+    AdminAccountSubcategoryCreateComponent
   ],
   imports: [
     CommonModule,

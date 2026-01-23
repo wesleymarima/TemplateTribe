@@ -21,12 +21,17 @@ export interface BranchDetailDTO {
   addressLine1: string;
   addressLine2: string;
   city: string;
+  state: string;
+  postalCode: string;
+  country: string;
   branchType: string;
   isHeadquarters: boolean;
   isActive: boolean;
+  businessHours: string;
   companyId: number;
   companyName: string;
   personsCount: number;
+  managerId: number;
 }
 
 export interface CreateBranchCommand {
