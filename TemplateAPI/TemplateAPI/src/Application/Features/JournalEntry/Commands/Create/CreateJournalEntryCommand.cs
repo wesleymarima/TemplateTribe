@@ -20,8 +20,6 @@ public class JournalEntryLineCommand
 
 public class CreateJournalEntryCommand : IRequest<int>
 {
-    public int CompanyId { get; set; }
-    public int FinancialPeriodId { get; set; }
     public DateTime TransactionDate { get; set; }
     public string Description { get; set; } = string.Empty;
     public string ReferenceNumber { get; set; } = string.Empty;
@@ -42,6 +40,32 @@ public class CreateJournalEntryCommandHandler : IRequestHandler<CreateJournalEnt
 
     public async Task<int> Handle(CreateJournalEntryCommand request, CancellationToken cancellationToken)
     {
+        // Get current user's person to determine company
+        Domain.Entities.Person? person = await _context.Persons
+            .Include(p => p.Branch)
+            .ThenInclude(b => b.Company)
+            .FirstOrDefaultAsync(p => p.ApplicationUserId == _currentUser.Id, cancellationToken);
+
+        if (person == null)
+        {
+            throw new NotFoundException("Person", _currentUser.Id ?? "");
+        }
+
+        int companyId = person.Branch.CompanyId;
+
+        // Get active financial period for the company
+        var financialPeriod = await _context.FinancialPeriods
+            .FirstOrDefaultAsync(fp => fp.CompanyId == companyId 
+                && fp.Status == PeriodStatus.Open
+                && request.TransactionDate >= fp.StartDate 
+                && request.TransactionDate <= fp.EndDate, cancellationToken);
+
+        if (financialPeriod == null)
+        {
+            throw new ValidationException(
+                "No active financial period found for the transaction date. Please ensure the period is open.");
+        }
+
         // Calculate totals
         decimal totalDebit = request.Lines.Sum(l => l.DebitAmount);
         decimal totalCredit = request.Lines.Sum(l => l.CreditAmount);
@@ -53,13 +77,13 @@ public class CreateJournalEntryCommandHandler : IRequestHandler<CreateJournalEnt
         }
 
         // Generate journal number
-        string journalNumber = await GenerateJournalNumber(request.CompanyId, cancellationToken);
+        string journalNumber = await GenerateJournalNumber(companyId, cancellationToken);
 
         Domain.Entities.JournalEntry entity = new()
         {
             JournalNumber = journalNumber,
-            CompanyId = request.CompanyId,
-            FinancialPeriodId = request.FinancialPeriodId,
+            CompanyId = companyId,
+            FinancialPeriodId = financialPeriod.Id,
             TransactionDate = request.TransactionDate,
             PostingDate = request.TransactionDate,
             Description = request.Description,
@@ -120,20 +144,8 @@ public class CreateJournalEntryCommandHandler : IRequestHandler<CreateJournalEnt
 
 public class CreateJournalEntryCommandValidator : AbstractValidator<CreateJournalEntryCommand>
 {
-    private readonly IApplicationDbContext _context;
-
-    public CreateJournalEntryCommandValidator(IApplicationDbContext context)
+    public CreateJournalEntryCommandValidator()
     {
-        _context = context;
-
-        RuleFor(v => v.CompanyId)
-            .NotEmpty().WithMessage("Company is required.")
-            .MustAsync(CompanyExists).WithMessage("The specified company does not exist.");
-
-        RuleFor(v => v.FinancialPeriodId)
-            .NotEmpty().WithMessage("Financial period is required.")
-            .MustAsync(FinancialPeriodExists).WithMessage("The specified financial period does not exist.");
-
         RuleFor(v => v.Description)
             .NotEmpty().WithMessage("Description is required.")
             .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
@@ -160,15 +172,5 @@ public class CreateJournalEntryCommandValidator : AbstractValidator<CreateJourna
                 .Must(l => (l.DebitAmount > 0 && l.CreditAmount == 0) || (l.CreditAmount > 0 && l.DebitAmount == 0))
                 .WithMessage("Each line must have either a debit or credit amount, but not both.");
         });
-    }
-
-    private async Task<bool> CompanyExists(int companyId, CancellationToken cancellationToken)
-    {
-        return await _context.Companies.AnyAsync(x => x.Id == companyId, cancellationToken);
-    }
-
-    private async Task<bool> FinancialPeriodExists(int financialPeriodId, CancellationToken cancellationToken)
-    {
-        return await _context.FinancialPeriods.AnyAsync(x => x.Id == financialPeriodId, cancellationToken);
     }
 }

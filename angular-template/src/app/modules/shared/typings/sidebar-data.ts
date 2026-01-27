@@ -51,6 +51,11 @@ export const AdminSideBarData: SideBarItem[] = [
     icon: 'account_tree',
     path: RouterConstants.ADMIN_CHART_OF_ACCOUNTS,
     name: 'Chart of Accounts'
+  },
+  {
+    icon: 'receipt_long',
+    path: RouterConstants.ADMIN_JOURNAL_ENTRIES,
+    name: 'Journal Entries'
   }
 ]
 

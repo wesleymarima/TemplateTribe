@@ -39,6 +39,9 @@ import { AdminAccountTypesHomeComponent } from './admin-account-types-home/admin
 import { AdminAccountTypeCreateComponent } from './admin-account-type-create/admin-account-type-create.component';
 import { AdminAccountSubcategoriesHomeComponent } from './admin-account-subcategories-home/admin-account-subcategories-home.component';
 import { AdminAccountSubcategoryCreateComponent } from './admin-account-subcategory-create/admin-account-subcategory-create.component';
+import { AdminJournalEntriesHomeComponent } from './admin-journal-entries-home/admin-journal-entries-home.component';
+import { AdminJournalEntryCreateComponent } from './admin-journal-entry-create/admin-journal-entry-create.component';
+import { AdminJournalEntryViewComponent } from './admin-journal-entry-view/admin-journal-entry-view.component';
 
 
 @NgModule({
@@ -72,7 +75,10 @@ import { AdminAccountSubcategoryCreateComponent } from './admin-account-subcateg
     AdminAccountTypesHomeComponent,
     AdminAccountTypeCreateComponent,
     AdminAccountSubcategoriesHomeComponent,
-    AdminAccountSubcategoryCreateComponent
+    AdminAccountSubcategoryCreateComponent,
+    AdminJournalEntriesHomeComponent,
+    AdminJournalEntryCreateComponent,
+    AdminJournalEntryViewComponent
   ],
   imports: [
     CommonModule,

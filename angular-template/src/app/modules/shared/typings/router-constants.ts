@@ -41,4 +41,8 @@ export class RouterConstants {
   static ADMIN_ACCOUNTS = '/admin/accounts';
   static ADMIN_ACCOUNT_CREATE = '/admin/account-create/';
   static ADMIN_ACCOUNT_VIEW = '/admin/account-view/';
+
+  static ADMIN_JOURNAL_ENTRIES = '/admin/journal-entries';
+  static ADMIN_JOURNAL_ENTRY_CREATE = '/admin/journal-entry-create/';
+  static ADMIN_JOURNAL_ENTRY_VIEW = '/admin/journal-entry-view/';
 }

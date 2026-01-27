@@ -1,0 +1,113 @@
+<div class="page-container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Journal Entries</h2>
+    <button mat-raised-button color="primary" [routerLink]="[RouterConstants.ADMIN_JOURNAL_ENTRY_CREATE]">
+      <mat-icon>add</mat-icon>
+      Create Journal Entry
+    </button>
+  </div>
+
+  <mat-card class="mb-3">
+    <mat-card-content>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Company</mat-label>
+            <mat-select [(ngModel)]="selectedCompanyId" (selectionChange)="onCompanyChange()">
+              <mat-option *ngFor="let company of companies" [value]="company.id">
+                {{ company.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Financial Period</mat-label>
+            <mat-select [(ngModel)]="selectedFinancialPeriodId" (selectionChange)="onFinancialPeriodChange()">
+              <mat-option>All Periods</mat-option>
+              <mat-option *ngFor="let period of financialPeriods" [value]="period.id">
+                {{ period.name }} ({{ period.fiscalYear }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="journalEntries">
+          <ng-container matColumnDef="journalNumber">
+            <th mat-header-cell *matHeaderCellDef> Journal #</th>
+            <td mat-cell *matCellDef="let element"> {{ element.journalNumber }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="transactionDate">
+            <th mat-header-cell *matHeaderCellDef> Date</th>
+            <td mat-cell *matCellDef="let element"> {{ element.transactionDate | date:'short' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description</th>
+            <td mat-cell *matCellDef="let element"> {{ element.description }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="referenceNumber">
+            <th mat-header-cell *matHeaderCellDef> Reference</th>
+            <td mat-cell *matCellDef="let element"> {{ element.referenceNumber }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="entryType">
+            <th mat-header-cell *matHeaderCellDef> Type</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="badge bg-info">{{ element.entryType }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status</th>
+            <td mat-cell *matCellDef="let element">
+              <span
+                [class]="'badge ' + (element.status === 'Posted' ? 'bg-success' : element.status === 'Draft' ? 'bg-warning' : 'bg-danger')">
+                {{ element.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalDebit">
+            <th mat-header-cell *matHeaderCellDef> Total Debit</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalDebit | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="totalCredit">
+            <th mat-header-cell *matHeaderCellDef> Total Credit</th>
+            <td mat-cell *matCellDef="let element"> {{ element.totalCredit | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button [routerLink]="[RouterConstants.ADMIN_JOURNAL_ENTRY_VIEW, element.id]"
+                      matTooltip="View">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button (click)="postJournalEntry(element.id)" *ngIf="element.status === 'Draft'"
+                      matTooltip="Post">
+                <mat-icon color="primary">check_circle</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteJournalEntry(element.id)" *ngIf="element.status === 'Draft'"
+                      matTooltip="Delete">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

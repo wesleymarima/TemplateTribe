@@ -16,13 +16,12 @@ namespace TemplateAPI.Web.Controllers;
 public class JournalEntryController : ApiControllerBase
 {
     /// <summary>
-    ///     Get all journal entries for a company
+    ///     Get all journal entries for current user's company
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<List<JournalEntryDTO>>> GetAll([FromQuery] int companyId,
-        [FromQuery] int? financialPeriodId = null)
+    public async Task<ActionResult<List<JournalEntryDTO>>> GetAll([FromQuery] int? financialPeriodId = null)
     {
-        List<JournalEntryDTO> result = await Mediator.Send(new GetAllJournalEntriesQuery(companyId, financialPeriodId));
+        List<JournalEntryDTO> result = await Mediator.Send(new GetAllJournalEntriesQuery(financialPeriodId));
         return Ok(result);
     }
 

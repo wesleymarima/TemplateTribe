@@ -8,6 +8,7 @@ export * from './currency.rest.service';
 export * from './department.rest.service';
 export * from './exchange-rate.rest.service';
 export * from './financial-period.rest.service';
+export * from './journal-entry.rest.service';
 export * from './person.rest.service';
 export * from './paginated-http.service';
 

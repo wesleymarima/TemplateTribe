@@ -6,6 +6,7 @@ using TemplateAPI.Application.Features.FinancialPeriod.Commands.Create;
 using TemplateAPI.Application.Features.FinancialPeriod.Commands.Delete;
 using TemplateAPI.Application.Features.FinancialPeriod.Commands.Reopen;
 using TemplateAPI.Application.Features.FinancialPeriod.Queries;
+using TemplateAPI.Application.Features.FinancialPeriod.Queries.GetActive;
 using TemplateAPI.Application.Features.FinancialPeriod.Queries.GetByCompany;
 using TemplateAPI.Application.Features.FinancialPeriod.Queries.GetOpen;
 using TemplateAPI.Domain.Constants;
@@ -32,6 +33,16 @@ public class FinancialPeriodController : ApiControllerBase
     public async Task<ActionResult<List<FinancialPeriodDTO>>> GetOpenPeriods(int companyId)
     {
         List<FinancialPeriodDTO> result = await Mediator.Send(new GetOpenFinancialPeriodsQuery(companyId));
+        return Ok(result);
+    }
+
+    /// <summary>
+    ///     Get currently active financial period for current user's company
+    /// </summary>
+    [HttpGet("active")]
+    public async Task<ActionResult<FinancialPeriodDTO>> GetActive()
+    {
+        FinancialPeriodDTO result = await Mediator.Send(new GetActiveFinancialPeriodQuery());
         return Ok(result);
     }
 

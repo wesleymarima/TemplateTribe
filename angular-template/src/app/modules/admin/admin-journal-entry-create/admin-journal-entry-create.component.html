@@ -1,0 +1,191 @@
+<div class="page-container">
+  <div class="mb-3">
+    <button mat-raised-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Journal Entries
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create Journal Entry</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Transaction Date</mat-label>
+              <input matInput type="date" formControlName="transactionDate">
+              <mat-error *ngIf="form.get('transactionDate')?.hasError('required')">Date is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Entry Type</mat-label>
+              <mat-select formControlName="entryType">
+                <mat-option *ngFor="let type of journalEntryTypes" [value]="type.value">
+                  {{ type.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('entryType')?.hasError('required')">Entry type is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Reference Number</mat-label>
+              <input matInput formControlName="referenceNumber" placeholder="Optional">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="2"
+                        placeholder="Enter journal entry description"></textarea>
+              <mat-error *ngIf="form.get('description')?.hasError('required')">Description is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="mt-4 mb-3 d-flex justify-content-between align-items-center">
+          <h4>Journal Entry Lines</h4>
+          <button type="button" mat-raised-button color="accent" (click)="addLine()">
+            <mat-icon>add</mat-icon>
+            Add Line
+          </button>
+        </div>
+
+        <div formArrayName="lines">
+          <mat-card class="mb-3" *ngFor="let line of lines.controls; let i = index" [formGroupName]="i">
+            <mat-card-content>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5>Line {{ i + 1 }}</h5>
+                <button type="button" mat-icon-button color="warn" (click)="removeLine(i)"
+                        [disabled]="lines.length <= 2">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Account</mat-label>
+                    <mat-select formControlName="accountId">
+                      <mat-option *ngFor="let account of accounts" [value]="account.id">
+                        {{ account.accountCode }} - {{ account.accountName }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="line.get('accountId')?.hasError('required')">Account is required</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Description</mat-label>
+                    <input matInput formControlName="description">
+                    <mat-error *ngIf="line.get('description')?.hasError('required')">Description is required</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Debit Amount</mat-label>
+                    <input matInput type="number" formControlName="debitAmount" step="0.01">
+                    <mat-error *ngIf="line.get('debitAmount')?.hasError('required')">Debit is required</mat-error>
+                    <mat-error *ngIf="line.get('debitAmount')?.hasError('min')">Must be 0 or greater</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Credit Amount</mat-label>
+                    <input matInput type="number" formControlName="creditAmount" step="0.01">
+                    <mat-error *ngIf="line.get('creditAmount')?.hasError('required')">Credit is required</mat-error>
+                    <mat-error *ngIf="line.get('creditAmount')?.hasError('min')">Must be 0 or greater</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Cost Center</mat-label>
+                    <mat-select formControlName="costCenterId">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let center of costCenters" [value]="center.id">
+                        {{ center.code }} - {{ center.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Department</mat-label>
+                    <mat-select formControlName="departmentId">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let dept of departments" [value]="dept.id">
+                        {{ dept.code }} - {{ dept.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Branch</mat-label>
+                    <mat-select formControlName="branchId">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let branch of branches" [value]="branch.id">
+                        {{ branch.code }} - {{ branch.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-8">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Memo</mat-label>
+                    <input matInput formControlName="memo" placeholder="Optional">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <mat-card class="mb-3">
+          <mat-card-content>
+            <div class="row">
+              <div class="col-md-4">
+                <p><strong>Total Debit:</strong> {{ getTotalDebit() | number:'1.2-2' }}</p>
+              </div>
+              <div class="col-md-4">
+                <p><strong>Total Credit:</strong> {{ getTotalCredit() | number:'1.2-2' }}</p>
+              </div>
+              <div class="col-md-4">
+                <p>
+                  <strong>Status:</strong>
+                  <span [class]="isBalanced() ? 'badge bg-success' : 'badge bg-danger'">
+                    {{ isBalanced() ? 'Balanced' : 'Not Balanced' }}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <div class="d-flex gap-2">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || !isBalanced()">
+            <mat-icon>save</mat-icon>
+            Create Journal Entry
+          </button>
+          <button mat-raised-button type="button" (click)="goBack()">
+            <mat-icon>cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
